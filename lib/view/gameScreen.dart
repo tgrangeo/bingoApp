@@ -20,6 +20,7 @@ class _GameScreen extends State<GameScreen> {
     bingo.clear();
     selectedIndex.clear();
     verif = false;
+    iconVerif = const Icon(Icons.verified_outlined, size: 100);
     setState(() {});
   }
 
