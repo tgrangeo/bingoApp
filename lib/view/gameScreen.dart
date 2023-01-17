@@ -52,7 +52,9 @@ class _GameScreen extends State<GameScreen> {
   void setButton(index, context) {
     if (selectedIndex.contains(index)) {
       if (verif == true) {
-        bingo.add(index);
+        if (bingo.contains(index) == false) {
+          bingo.add(index);
+        }
         checkBingo(context);
         print(bingo);
       } else {
@@ -71,7 +73,7 @@ class _GameScreen extends State<GameScreen> {
 
     return Scaffold(
         body: Container(
-            color: Color.fromARGB(255, 66, 66, 66),
+            //color: Color.fromARGB(255, 66, 66, 66),
             alignment: Alignment.center,
             child: Row(
               children: [
@@ -80,7 +82,7 @@ class _GameScreen extends State<GameScreen> {
                     width: screenWidth * 0.8,
                     child: GridView(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 11,
+                        crossAxisCount: 10,
                         mainAxisExtent: screenHeight * 0.1,
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
