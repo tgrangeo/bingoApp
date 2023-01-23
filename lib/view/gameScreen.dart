@@ -1,3 +1,4 @@
+import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:flutter/material.dart';
 
 class GameScreen extends StatefulWidget {
@@ -9,18 +10,17 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreen extends State<GameScreen> {
   List<int> selectedIndex = [];
-
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   List<int> bingo = [];
-  Color blue = Color.fromARGB(255, 140, 198, 213);
+  Color blue = Colors.grey;
   Color green = Colors.green;
   bool verif = false;
-  Icon iconVerif = const Icon(Icons.verified_outlined, size: 100);
+  bool isHover = false;
 
   void reset() {
     bingo.clear();
     selectedIndex.clear();
     verif = false;
-    iconVerif = const Icon(Icons.verified_outlined, size: 100);
     setState(() {});
   }
 
@@ -30,10 +30,9 @@ class _GameScreen extends State<GameScreen> {
           context: context,
           builder: ((context) => Dialog(
                   child: Container(
-                  width: 600,
-                  height: 200,
-                child: Column(
-                  children: [
+                width: 600,
+                height: 200,
+                child: Column(children: [
                   const Text(
                     "BINGO",
                     style: TextStyle(fontSize: 100),
@@ -66,6 +65,17 @@ class _GameScreen extends State<GameScreen> {
     setState(() {});
   }
 
+  void setVerif() {
+    setState(() {
+      if (verif == false) {
+        verif = true;
+      } else {
+        verif = false;
+      }
+      print(verif);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -77,6 +87,84 @@ class _GameScreen extends State<GameScreen> {
             alignment: Alignment.center,
             child: Row(
               children: [
+                AnimatedContainer(
+                  height: double.infinity,
+                  width: !(isHover) ? 50 : 200,
+                  duration: const Duration(milliseconds: 250),
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Container(
+                    //height: 30,
+                    color: Colors.grey,
+                    child: InkWell(
+                      onTap: () {},
+                      child: !(isHover)
+                          ? const SizedBox()
+                          : Column(
+                              children: [
+                                const SizedBox(height: 10),
+                                const Image(
+                                    image: AssetImage('assets/ol.png'),
+                                    fit: BoxFit.cover,
+                                    width: 170,),
+                                const SizedBox(height: 10),
+                                AnimatedButton(
+                                  height: 40,
+                                  width: 150,
+                                  text: "Bingo",
+                                  onPress: setVerif,
+                                  isReverse: true,
+                                  selectedTextColor: Colors.black,
+                                  animatedOn: AnimatedOn.onHover,
+                                  transitionType: TransitionType.LEFT_TO_RIGHT,
+                                  backgroundColor: Colors.grey,
+                                  borderColor: Colors.white,
+                                  borderRadius: 20,
+                                  borderWidth: 2,
+                                ),
+                                const SizedBox(height: 10),
+                                AnimatedButton(
+                                  height: 40,
+                                  width: 150,
+                                  text: "Reset",
+                                  onPress: reset,
+                                  isReverse: true,
+                                  selectedTextColor: Colors.black,
+                                  animatedOn: AnimatedOn.onHover,
+                                  transitionType: TransitionType.LEFT_TO_RIGHT,
+                                  backgroundColor: Colors.grey,
+                                  borderColor: Colors.white,
+                                  borderRadius: 20,
+                                  borderWidth: 2,
+                                ),
+                                const SizedBox(height: 420),
+                                AnimatedButton(
+                                  height: 40,
+                                  width: 150,
+                                  text: "Back",
+                                  onPress: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  isReverse: true,
+                                  selectedTextColor: Colors.black,
+                                  animatedOn: AnimatedOn.onHover,
+                                  transitionType: TransitionType.LEFT_TO_RIGHT,
+                                  backgroundColor: Colors.grey,
+                                  borderColor: Colors.white,
+                                  borderRadius: 20,
+                                  borderWidth: 2,
+                                )
+                                //DrawerButton(context: context, tt: "reset", onPress: reset())
+                              ],
+                            ),
+                      //!(isHover) ? Text("Hover") : Text("Button"),
+                      onHover: (val) {
+                        setState(() {
+                          isHover = val;
+                        });
+                      },
+                    ),
+                  ),
+                ),
                 Container(
                     // size de la grille
                     width: screenWidth * 0.8,
@@ -108,31 +196,10 @@ class _GameScreen extends State<GameScreen> {
                                 ),
                               ),
                               child: Text('${i + 1}',
-                                  style: const TextStyle(fontSize: 48)));
+                                  style: const TextStyle(fontSize: 48, color: Colors.white)));
                         });
                       }),
                     )),
-                OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      if (verif == false) {
-                        verif = true;
-                        iconVerif = const Icon(Icons.verified, size: 100);
-                      } else {
-                        iconVerif =
-                            const Icon(Icons.verified_outlined, size: 100);
-                        verif = false;
-                      }
-                      print(verif);
-                    });
-                  },
-                  child: iconVerif,
-                ),
-                OutlinedButton(
-                    onPressed: () {
-                      reset();
-                    },
-                    child: const Text("reset"))
               ],
             )));
   }
