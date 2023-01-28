@@ -1,5 +1,7 @@
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:flutter/material.dart';
+import 'pauseScreen.dart';
+import '../widget/stopwatch.dart';
 
 class GameScreen extends StatefulWidget {
   GameScreen({super.key});
@@ -103,9 +105,10 @@ class _GameScreen extends State<GameScreen> {
                               children: [
                                 const SizedBox(height: 10),
                                 const Image(
-                                    image: AssetImage('assets/ol.png'),
-                                    fit: BoxFit.cover,
-                                    width: 170,),
+                                  image: AssetImage('assets/ol.png'),
+                                  fit: BoxFit.cover,
+                                  width: 170,
+                                ),
                                 const SizedBox(height: 10),
                                 AnimatedButton(
                                   height: 40,
@@ -122,6 +125,8 @@ class _GameScreen extends State<GameScreen> {
                                   borderWidth: 2,
                                 ),
                                 const SizedBox(height: 10),
+                                verif == true ? Text("on") : Text("off"),
+                                const SizedBox(height: 10),
                                 AnimatedButton(
                                   height: 40,
                                   width: 150,
@@ -136,7 +141,28 @@ class _GameScreen extends State<GameScreen> {
                                   borderRadius: 20,
                                   borderWidth: 2,
                                 ),
-                                const SizedBox(height: 420),
+                                const SizedBox(height: 10),
+                                 AnimatedButton(
+                                  height: 40,
+                                  width: 150,
+                                  text: "Pause",
+                                  onPress: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => PauseScreen(),
+                                      ),
+                                    );
+                                  },
+                                  isReverse: true,
+                                  selectedTextColor: Colors.black,
+                                  animatedOn: AnimatedOn.onHover,
+                                  transitionType: TransitionType.LEFT_TO_RIGHT,
+                                  backgroundColor: Colors.grey,
+                                  borderColor: Colors.white,
+                                  borderRadius: 20,
+                                  borderWidth: 2,
+                                ),
+                                const SizedBox(height: 300),
                                 AnimatedButton(
                                   height: 40,
                                   width: 150,
@@ -152,7 +178,8 @@ class _GameScreen extends State<GameScreen> {
                                   borderColor: Colors.white,
                                   borderRadius: 20,
                                   borderWidth: 2,
-                                )
+                                ),
+                                const SizedBox(height: 420),
                                 //DrawerButton(context: context, tt: "reset", onPress: reset())
                               ],
                             ),
@@ -165,13 +192,14 @@ class _GameScreen extends State<GameScreen> {
                     ),
                   ),
                 ),
+                SizedBox(width: screenWidth * 0.1),
                 Container(
                     // size de la grille
-                    width: screenWidth * 0.8,
+                    width: screenWidth * 0.7,
                     child: GridView(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 10,
-                        mainAxisExtent: screenHeight * 0.1,
+                        mainAxisExtent: screenHeight * 0.09,
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
                       ),
@@ -196,7 +224,8 @@ class _GameScreen extends State<GameScreen> {
                                 ),
                               ),
                               child: Text('${i + 1}',
-                                  style: const TextStyle(fontSize: 48, color: Colors.white)));
+                                  style: const TextStyle(
+                                      fontSize: 48, color: Colors.white)));
                         });
                       }),
                     )),
