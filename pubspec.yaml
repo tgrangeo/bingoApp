@@ -65,6 +65,10 @@ flutter:
   assets:
     - assets/appainter_theme.json
     - assets/ol.png
+    - assets/sponsor/captain.png
+    - assets/sponsor/jetm.png
+    - assets/sponsor/justin_bridou.png
+    - assets/sponsor/ricard.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
