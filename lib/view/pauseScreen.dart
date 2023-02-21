@@ -24,46 +24,44 @@ class _PauseScreen extends State<PauseScreen> {
 
     return Scaffold(
         body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.contain,
+                colorFilter: ColorFilter.mode(
+                    Colors.white.withOpacity(0.2), BlendMode.dstATop),
+                image: const Image(
+                  image: AssetImage('assets/ol.png'),
+                ).image ,
+              ),
+            ),
             child: Column(children: [
-      OutlinedButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text("retour")),
-      SizedBox(height: screenHeight * 0.15),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        // const Image(
-        //   image: AssetImage('assets/ol.png'),
-        //   fit: BoxFit.cover,
-        //   width: 170,
-        // ),
-        SizedBox(width: screenWidth * 0.05),
-        StopWatchTimerPage(),
-        SizedBox(width: screenWidth * 0.05),
-        // const Image(
-        //   image: AssetImage('assets/ol.png'),
-        //   fit: BoxFit.cover,
-        //   width: 170,
-        // ),
-      ]),
-      Expanded(
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          children: [
-            // showing list of images
-            for (var item in imgList)
-              Center(
-                child: Image(
-                  image: item,
-                  fit: BoxFit.cover,
-                  width: 300,
+              OutlinedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("retour")),
+              SizedBox(height: screenHeight * 0.15),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                SizedBox(width: screenWidth * 0.05),
+                StopWatchTimerPage(),
+                SizedBox(width: screenWidth * 0.05),
+              ]),
+              Expanded(
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  children: [
+                    for (var item in imgList)
+                      Center(
+                        child: Image(
+                          image: item,
+                          fit: BoxFit.cover,
+                          width: screenWidth * 0.2,
+                        ),
+                      )
+                  ],
                 ),
-                //child: Container(width: 150, height: 100, child: item),
               )
-          ],
-        ),
-      )
-    ])));
+            ])));
   }
 }

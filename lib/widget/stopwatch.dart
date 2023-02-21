@@ -1,6 +1,15 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'button_widget.dart';
+
+class ScaleSize {
+  static double textScaleFactor(BuildContext context, {double maxTextScaleFactor = 2}) {
+    final width = MediaQuery.of(context).size.width;
+    double val = (width / 1400) * maxTextScaleFactor;
+    return max(1, min(val, maxTextScaleFactor));
+  }
+}
 
 class StopWatchTimerPage extends StatefulWidget {
   @override
@@ -89,20 +98,20 @@ class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                color: Colors.grey[300],
+                color: Color.fromARGB(215, 224, 224, 224),
                 borderRadius: BorderRadius.circular(20)),
             child: Text(
               time,
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
-                  fontSize: 180),
+                  fontSize: MediaQuery.of(context).size.width * 0.13),
             ),
           ),
           const SizedBox(
             height: 24,
           ),
-          Text(header, style: const TextStyle(color: Colors.black45)),
+          Text(header, style: TextStyle(color: Colors.black45, fontSize: MediaQuery.of(context).size.width * 0.018)),
         ],
       );
 
