@@ -98,7 +98,7 @@ class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                color: Color.fromARGB(215, 224, 224, 224),
+                color: Color.fromARGB(93, 216, 215, 215),
                 borderRadius: BorderRadius.circular(20)),
             child: Text(
               time,

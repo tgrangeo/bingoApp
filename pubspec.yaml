@@ -64,7 +64,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/appainter_theme.json
-    - assets/ol.png
+    - assets/logo_caserne.png
     - assets/sponsor/captain.png
     - assets/sponsor/jetm.png
     - assets/sponsor/justin_bridou.png

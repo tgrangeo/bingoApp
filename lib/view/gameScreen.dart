@@ -14,8 +14,8 @@ class _GameScreen extends State<GameScreen> {
   List<int> selectedIndex = [];
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   List<int> bingo = [];
-  Color blue = Colors.grey;
-  Color green = Colors.green;
+  Color unselected = Color.fromARGB(255, 0, 0, 1);
+  Color selected = Color.fromARGB(255, 252, 179, 51);
   bool verif = false;
   bool isHover = false;
 
@@ -105,7 +105,7 @@ class _GameScreen extends State<GameScreen> {
                               children: [
                                 const SizedBox(height: 10),
                                 const Image(
-                                  image: AssetImage('assets/ol.png'),
+                                  image: AssetImage('assets/logo_caserne.png'),
                                   fit: BoxFit.cover,
                                   width: 170,
                                 ),
@@ -142,7 +142,7 @@ class _GameScreen extends State<GameScreen> {
                                   borderWidth: 2,
                                 ),
                                 const SizedBox(height: 10),
-                                 AnimatedButton(
+                                AnimatedButton(
                                   height: 40,
                                   width: 150,
                                   text: "Pause",
@@ -162,7 +162,7 @@ class _GameScreen extends State<GameScreen> {
                                   borderRadius: 20,
                                   borderWidth: 2,
                                 ),
-                                const SizedBox(height: 300),
+                                const SizedBox(height: 580),
                                 AnimatedButton(
                                   height: 40,
                                   width: 150,
@@ -179,7 +179,7 @@ class _GameScreen extends State<GameScreen> {
                                   borderRadius: 20,
                                   borderWidth: 2,
                                 ),
-                                const SizedBox(height: 420),
+                                // const SizedBox(height: 420),
                                 //DrawerButton(context: context, tt: "reset", onPress: reset())
                               ],
                             ),
@@ -214,9 +214,9 @@ class _GameScreen extends State<GameScreen> {
                                     ? verif
                                         ? bingo.contains(i)
                                             ? Colors.red
-                                            : green
-                                        : green
-                                    : blue,
+                                            : selected
+                                        : selected
+                                    : unselected,
                                 shadowColor: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(500),

@@ -30,8 +30,8 @@ class _PauseScreen extends State<PauseScreen> {
                 colorFilter: ColorFilter.mode(
                     Colors.white.withOpacity(0.2), BlendMode.dstATop),
                 image: const Image(
-                  image: AssetImage('assets/ol.png'),
-                ).image ,
+                  image: AssetImage('assets/logo_caserne.png'),
+                ).image,
               ),
             ),
             child: Column(children: [
@@ -46,6 +46,8 @@ class _PauseScreen extends State<PauseScreen> {
                 StopWatchTimerPage(),
                 SizedBox(width: screenWidth * 0.05),
               ]),
+              SizedBox(height: screenWidth * 0.06),
+              const Text("Merci a nos partenaires :", style: TextStyle(color: Colors.black,fontSize: 48, decoration: TextDecoration.underline)),
               Expanded(
                 child: ListView(
                   scrollDirection: Axis.horizontal,
