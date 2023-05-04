@@ -14,8 +14,8 @@ class _GameScreen extends State<GameScreen> {
   List<int> selectedIndex = [];
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   List<int> bingo = [];
-  Color unselected = Color.fromARGB(255, 0, 0, 1);
-  Color selected = Color.fromARGB(255, 252, 179, 51);
+  Color unselected = const Color.fromARGB(255, 0, 0, 1);
+  Color selected = const Color.fromARGB(255, 252, 179, 51);
   bool verif = false;
   bool isHover = false;
 
@@ -26,56 +26,13 @@ class _GameScreen extends State<GameScreen> {
     setState(() {});
   }
 
-  void checkBingo(context) {
-    if (bingo.length >= 5) {
-      showDialog(
-          context: context,
-          builder: ((context) => Dialog(
-                  child: Container(
-                width: 600,
-                height: 200,
-                child: Column(children: [
-                  const Text(
-                    "BINGO",
-                    style: TextStyle(fontSize: 100),
-                  ),
-                  OutlinedButton(
-                      onPressed: () {
-                        reset();
-                        Navigator.pop(context);
-                      },
-                      child: const Text("close"))
-                ]),
-              ))));
-    }
-  }
-
   void setButton(index, context) {
     if (selectedIndex.contains(index)) {
-      if (verif == true) {
-        if (bingo.contains(index) == false) {
-          bingo.add(index);
-        }
-        checkBingo(context);
-        print(bingo);
-      } else {
-        selectedIndex.remove(index);
-      }
-    } else if (verif == false) {
+      selectedIndex.remove(index);
+    } else {
       selectedIndex.add(index);
     }
-    setState(() {});
-  }
-
-  void setVerif() {
-    setState(() {
-      if (verif == false) {
-        verif = true;
-      } else {
-        verif = false;
-      }
-      print(verif);
-    });
+    setState((){});
   }
 
   @override
@@ -95,7 +52,6 @@ class _GameScreen extends State<GameScreen> {
                   duration: const Duration(milliseconds: 250),
                   padding: const EdgeInsets.only(right: 10),
                   child: Container(
-                    //height: 30,
                     color: Colors.grey,
                     child: InkWell(
                       onTap: () {},
@@ -110,22 +66,6 @@ class _GameScreen extends State<GameScreen> {
                                   width: 170,
                                 ),
                                 const SizedBox(height: 10),
-                                AnimatedButton(
-                                  height: 40,
-                                  width: 150,
-                                  text: "Bingo",
-                                  onPress: setVerif,
-                                  isReverse: true,
-                                  selectedTextColor: Colors.black,
-                                  animatedOn: AnimatedOn.onHover,
-                                  transitionType: TransitionType.LEFT_TO_RIGHT,
-                                  backgroundColor: Colors.grey,
-                                  borderColor: Colors.white,
-                                  borderRadius: 20,
-                                  borderWidth: 2,
-                                ),
-                                const SizedBox(height: 10),
-                                verif == true ? Text("on") : Text("off"),
                                 const SizedBox(height: 10),
                                 AnimatedButton(
                                   height: 40,
@@ -179,11 +119,8 @@ class _GameScreen extends State<GameScreen> {
                                   borderRadius: 20,
                                   borderWidth: 2,
                                 ),
-                                // const SizedBox(height: 420),
-                                //DrawerButton(context: context, tt: "reset", onPress: reset())
                               ],
                             ),
-                      //!(isHover) ? Text("Hover") : Text("Button"),
                       onHover: (val) {
                         setState(() {
                           isHover = val;
@@ -210,22 +147,17 @@ class _GameScreen extends State<GameScreen> {
                                 setButton(i, context);
                               },
                               style: OutlinedButton.styleFrom(
-                                backgroundColor: selectedIndex.contains(i)
-                                    ? verif
-                                        ? bingo.contains(i)
-                                            ? Colors.red
-                                            : selected
-                                        : selected
-                                    : unselected,
+                                backgroundColor: selectedIndex.contains(i)? selected : unselected,
                                 shadowColor: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(500),
-                                  // side: BorderSide(color: Color.fromARGB(255, 89, 99, 244))
                                 ),
                               ),
                               child: Text('${i + 1}',
-                                  style: const TextStyle(
-                                      fontSize: 48, color: Colors.white)));
+                                  style: TextStyle(
+                                      fontSize: 48, color: selectedIndex.contains(i) ? unselected : Colors.white)
+                              )
+                          );
                         });
                       }),
                     )),

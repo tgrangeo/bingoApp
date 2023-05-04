@@ -1,13 +1,7 @@
 //import 'package:flutter_animated_button/flutter_animated_button.dart';
+import 'package:bingo/widget/carousel.dart';
 import 'package:flutter/material.dart';
 import '../widget/stopwatch.dart';
-
-List imgList = [
-  AssetImage('assets/sponsor/captain.png'),
-  AssetImage('assets/sponsor/jetm.png'),
-  AssetImage('assets/sponsor/justin_bridou.png'),
-  AssetImage('assets/sponsor/ricard.png'),
-];
 
 class PauseScreen extends StatefulWidget {
   PauseScreen({super.key});
@@ -48,21 +42,10 @@ class _PauseScreen extends State<PauseScreen> {
               ]),
               SizedBox(height: screenWidth * 0.06),
               const Text("Merci a nos partenaires :", style: TextStyle(color: Colors.black,fontSize: 48, decoration: TextDecoration.underline)),
-              Expanded(
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  children: [
-                    for (var item in imgList)
-                      Center(
-                        child: Image(
-                          image: item,
-                          fit: BoxFit.cover,
-                          width: screenWidth * 0.2,
-                        ),
-                      )
-                  ],
-                ),
+              SizedBox(height: screenWidth * 0.01),
+              SizedBox(
+                width: screenWidth * 0.6,
+                child: CarouselWidget(),
               )
             ])));
   }
