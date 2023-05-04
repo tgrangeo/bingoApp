@@ -1,10 +1,11 @@
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:flutter/material.dart';
 import 'pauseScreen.dart';
-import '../widget/stopwatch.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GameScreen extends StatefulWidget {
-  GameScreen({super.key});
+  final SharedPreferences prefs;
+  GameScreen({super.key, required this.prefs});
 
   @override
   State<GameScreen> createState() => _GameScreen();
@@ -89,7 +90,7 @@ class _GameScreen extends State<GameScreen> {
                                   onPress: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => PauseScreen(),
+                                        builder: (context) => PauseScreen(prefs:widget.prefs),
                                       ),
                                     );
                                   },

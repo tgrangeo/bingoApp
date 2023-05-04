@@ -1,10 +1,12 @@
 //import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:bingo/widget/carousel.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widget/stopwatch.dart';
 
 class PauseScreen extends StatefulWidget {
-  PauseScreen({super.key});
+  final SharedPreferences prefs;
+  PauseScreen({super.key, required this.prefs});
 
   @override
   State<PauseScreen> createState() => _PauseScreen();
@@ -41,11 +43,15 @@ class _PauseScreen extends State<PauseScreen> {
                 SizedBox(width: screenWidth * 0.05),
               ]),
               SizedBox(height: screenWidth * 0.06),
-              const Text("Merci a nos partenaires :", style: TextStyle(color: Colors.black,fontSize: 48, decoration: TextDecoration.underline)),
+              const Text("Merci a nos partenaires :",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 48,
+                      decoration: TextDecoration.underline)),
               SizedBox(height: screenWidth * 0.01),
               SizedBox(
                 width: screenWidth * 0.6,
-                child: CarouselWidget(),
+                child: CarouselWidget(prefs:widget.prefs),
               )
             ])));
   }
