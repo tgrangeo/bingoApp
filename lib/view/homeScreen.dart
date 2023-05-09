@@ -4,6 +4,7 @@ import 'package:bingo/widget/mode_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widget/sponsor_picker.dart';
+import '../widget/time_picker.dart';
 
 class MyHomePage extends StatefulWidget {
   final SharedPreferences prefs;
@@ -35,7 +36,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Row(
                       children: [
                         Expanded(child: SponsorPicker(prefs: widget.prefs)),
-                        Expanded(child: ModePicker(prefs: widget.prefs)),
+                        Expanded(child:Column(children: [
+                          Expanded(child: ModePicker(prefs: widget.prefs)),
+                          Expanded(child: TimePicker(prefs: widget.prefs)),
+                        ])),
                         Expanded(child: ColorPickerWidget(prefs: widget.prefs)),
                       ],
                     ))),

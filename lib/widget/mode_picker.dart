@@ -25,6 +25,7 @@ class _ModePicker extends State<ModePicker> {
       elevation: 2,
       child: Column(
         children: [
+          Row(children: const [ SizedBox(width: 0),]),
           const Text(
             "Mode",
             style: TextStyle(

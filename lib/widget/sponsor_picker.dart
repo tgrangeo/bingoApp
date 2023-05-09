@@ -11,19 +11,23 @@ class SponsorPicker extends StatefulWidget {
 }
 
 class _SponsorPicker extends State<SponsorPicker> {
-  List<String> pathList = [];
+  late List<String> pathList;
 
+  @override
+  void initState() {
+    pathList = widget.prefs.getStringList('imgList') as List<String>;
+  }
   pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
-      allowedExtensions: ['jpg', 'png'],
+      allowedExtensions: ['jpg', 'png', 'jpeg'],
     );
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path!)).toList();
       for (int i = 0; i < files.length; i++) {
         print(files[i].path);
         if (files[i].path.split('.').last == 'png' ||
-            pathList[i].split('.').last == 'jpg') {
+            pathList[i].split('.').last == 'jpg' ||  pathList[i].split('.').last == 'jpeg') {
           // check cause allowed extension don't seems to work
           pathList.add(files[i].path);
         }
@@ -62,44 +66,46 @@ class _SponsorPicker extends State<SponsorPicker> {
               ),
             ),
             pathList.isNotEmpty
-                ? Container(
-                    alignment: Alignment.center,
-                    height: 200,
-                    width: 400,
+                ? Expanded(
+                    // alignment: Alignment.center,
+                    // height: 200,
+                    // width: 400,
                     child: ListView.separated(
-                      padding: const EdgeInsets.all(20.0),
-                      itemCount: pathList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                            height: 50,
-                            color: Color.fromARGB(255, 47, 206, 206),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Center(
-                                    child:
-                                        Text(pathList[index].split('/').last)),
-                                IconButton(
-                                    onPressed: () {
-                                      deletePath(index);
-                                    },
-                                    icon: const Icon(Icons.delete))
-                              ],
-                            ));
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(
-                        height: 10,
-                      ),
-                    ))
+                    padding: const EdgeInsets.all(20.0),
+                    itemCount: pathList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                          height: 50,
+                          color: Color.fromARGB(255, 47, 206, 206),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                  child: Text(pathList[index].split('/').last)),
+                              IconButton(
+                                  onPressed: () {
+                                    deletePath(index);
+                                  },
+                                  icon: const Icon(Icons.delete))
+                            ],
+                          ));
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(
+                      height: 10,
+                    ),
+                  ))
                 : Text("no sponsor please add one"),
+            const SizedBox(
+              height: 10,
+            ),
             OutlinedButton(
                 onPressed: (() {
                   pickFile();
                 }),
                 child: const Text("add")),
             const SizedBox(
-              height: 50,
+              height: 10,
             ),
           ],
         ));

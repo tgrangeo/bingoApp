@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'button_widget.dart';
 
 class ScaleSize {
-  static double textScaleFactor(BuildContext context, {double maxTextScaleFactor = 2}) {
+  static double textScaleFactor(BuildContext context,
+      {double maxTextScaleFactor = 2}) {
     final width = MediaQuery.of(context).size.width;
     double val = (width / 1400) * maxTextScaleFactor;
     return max(1, min(val, maxTextScaleFactor));
@@ -12,19 +14,24 @@ class ScaleSize {
 }
 
 class StopWatchTimerPage extends StatefulWidget {
+  final SharedPreferences prefs;
+  const StopWatchTimerPage({super.key, required this.prefs});
   @override
   _StopWatchTimerPageState createState() => _StopWatchTimerPageState();
 }
 
 class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
-  static const countdownDuration = Duration(minutes: 1);
+  static late Duration countdownDuration;
   Duration duration = const Duration();
   Timer? timer;
-
   bool countDown = true;
 
   @override
   void initState() {
+    countdownDuration = Duration(
+        hours: widget.prefs.getInt('hours') ?? 0,
+        minutes: widget.prefs.getInt('minutes') ?? 0,
+        seconds: widget.prefs.getInt('secondes') ?? 0);
     super.initState();
     reset();
     startTimer();
@@ -66,10 +73,6 @@ class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           buildTime(),
-          // const SizedBox(
-          //   height: 80,
-          // ),
-          // buildButtons()
         ],
       );
 
@@ -111,7 +114,10 @@ class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
           const SizedBox(
             height: 24,
           ),
-          Text(header, style: TextStyle(color: Colors.black45, fontSize: MediaQuery.of(context).size.width * 0.018)),
+          Text(header,
+              style: TextStyle(
+                  color: Colors.black45,
+                  fontSize: MediaQuery.of(context).size.width * 0.018)),
         ],
       );
 

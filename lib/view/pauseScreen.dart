@@ -39,7 +39,7 @@ class _PauseScreen extends State<PauseScreen> {
               SizedBox(height: screenHeight * 0.15),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 SizedBox(width: screenWidth * 0.05),
-                StopWatchTimerPage(),
+                StopWatchTimerPage(prefs:widget.prefs),
                 SizedBox(width: screenWidth * 0.05),
               ]),
               SizedBox(height: screenWidth * 0.06),
