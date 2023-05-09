@@ -53,25 +53,6 @@ class _CarouselWidget extends State<CarouselWidget> {
     return result;
   }
 
-  // static final child = imgList.length > 0
-  //     ? map<Widget>(
-  //         imgList,
-  //         (index, i) {
-  //           return Container(
-  //             margin: EdgeInsets.all(5.0),
-  //             child: Stack(children: <Widget>[
-  //               Image(
-  //                 image: FileImage(File(i)),
-  //                 fit: BoxFit.cover,
-  //                 // width: 50,
-  //                 height: 250, //screenWidth * 0.2,
-  //               ),
-  //             ]),
-  //           );
-  //         },
-  //       ).toList()
-  //     : null;
-
 //TODO: image screen height ratio
   @override
   Widget build(BuildContext context) {
