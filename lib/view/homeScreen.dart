@@ -1,4 +1,5 @@
 import 'package:bingo/view/gameScreen.dart';
+import 'package:bingo/widget/color_picker.dart';
 import 'package:bingo/widget/mode_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,25 +30,13 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SizedBox(
-                  //TODO: height responsive
+                    //TODO: height responsive
                     height: 600,
                     child: Row(
                       children: [
-                        Expanded(
-                            child: Card(
-                          elevation: 2,
-                          child: SponsorPicker(prefs: widget.prefs),
-                          color: Colors.grey[300],
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                        )),
-                        Expanded(
-                            child:ModePicker(prefs: widget.prefs),
-                        ),
-                        Expanded(
-                            child: Card(
-                                child: SponsorPicker(prefs: widget.prefs))),
+                        Expanded(child: SponsorPicker(prefs: widget.prefs)),
+                        Expanded(child: ModePicker(prefs: widget.prefs)),
+                        Expanded(child: ColorPickerWidget(prefs: widget.prefs)),
                       ],
                     ))),
             OutlinedButton(

@@ -15,10 +15,25 @@ class _GameScreen extends State<GameScreen> {
   List<int> selectedIndex = [];
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   List<int> bingo = [];
-  Color unselected = const Color.fromARGB(255, 0, 0, 1);
-  Color selected = const Color.fromARGB(255, 252, 179, 51);
   bool verif = false;
   bool isHover = false;
+  late Color unselected;
+  late Color selected;
+  late Color textunselected;
+  late Color textselected;
+
+  @override
+  initState() {
+    unselected =
+        Color(widget.prefs.getInt('colorUnselect') ?? Colors.black.value);
+    selected = Color(widget.prefs.getInt('colorSelect') ??
+        const Color.fromARGB(255, 252, 179, 51).value);
+
+    textunselected =
+        Color(widget.prefs.getInt('textColorUnselect') ?? Colors.white.value);
+    textselected =
+        Color(widget.prefs.getInt('textColorSelect') ?? Colors.black.value);
+  }
 
   void reset() {
     bingo.clear();
@@ -33,7 +48,7 @@ class _GameScreen extends State<GameScreen> {
     } else {
       selectedIndex.add(index);
     }
-    setState((){});
+    setState(() {});
   }
 
   @override
@@ -90,7 +105,8 @@ class _GameScreen extends State<GameScreen> {
                                   onPress: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => PauseScreen(prefs:widget.prefs),
+                                        builder: (context) =>
+                                            PauseScreen(prefs: widget.prefs),
                                       ),
                                     );
                                   },
@@ -148,7 +164,9 @@ class _GameScreen extends State<GameScreen> {
                                 setButton(i, context);
                               },
                               style: OutlinedButton.styleFrom(
-                                backgroundColor: selectedIndex.contains(i)? selected : unselected,
+                                backgroundColor: selectedIndex.contains(i)
+                                    ? selected
+                                    : unselected,
                                 shadowColor: Colors.black,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(500),
@@ -156,9 +174,10 @@ class _GameScreen extends State<GameScreen> {
                               ),
                               child: Text('${i + 1}',
                                   style: TextStyle(
-                                      fontSize: 48, color: selectedIndex.contains(i) ? unselected : Colors.white)
-                              )
-                          );
+                                      fontSize: 48,
+                                      color: selectedIndex.contains(i)
+                                          ? textselected
+                                          : textunselected)));
                         });
                       }),
                     )),

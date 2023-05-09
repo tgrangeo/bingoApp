@@ -41,6 +41,7 @@ dependencies:
   shared_preferences: ^2.1.0
   carousel_slider: ^4.2.1
   file_picker: ^5.2.11
+  flutter_colorpicker: ^1.0.3
 
 dev_dependencies:
   flutter_test:
