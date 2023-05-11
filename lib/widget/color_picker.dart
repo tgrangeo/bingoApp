@@ -76,134 +76,209 @@ class _ColorPickerWidget extends State<ColorPickerWidget> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Card(
-        color: Colors.grey[300],
+        color: Color.fromARGB(160, 228, 231, 234),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
-        elevation: 2,
-        child: Column(children: [
+        elevation: 20,
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          // const SizedBox(height: 10,),
           const Text(
-            "Option",
+            "Couleurs des nombres",
             style: TextStyle(
-              fontSize: 30,
+              fontSize: 33,
               fontWeight: FontWeight.bold,
-              decoration: TextDecoration.underline,
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              const Text("selected color :     "),
-              OutlinedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(colorSelect)),
-                  onPressed: () {
-                    _showDialog("colorSelect");
-                  },
-                  child: const Text("")),
-            ],
-          ),
-          Row(
-            children: [
-              const Text("selected text color :     "),
-              OutlinedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white)),
-                  onPressed: () {
-                    setState(() => textSelected = Colors.white);
-                    widget.prefs.setInt('textColorSelect', textSelected.value);
-                  },
-                  child: const Text("")),
-              const SizedBox(
-                width: 10,
-              ),
-              OutlinedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.black)),
-                  onPressed: () {
-                    setState(() => textSelected = Colors.black);
-                    widget.prefs.setInt('textColorSelect', textSelected.value);
-                  },
-                  child: const Text("")),
-            ],
-          ),
-          const SizedBox(
-            height: 100,
-          ),
-          Row(
-            children: [
-              const Text("unselected color :     "),
-              OutlinedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(colorUnselect)),
-                  onPressed: () {
-                    _showDialog("colorUnselect");
-                  },
-                  child: const Text("")),
-            ],
-          ),
-          Row(
-            children: [
-              const Text("unselected text color :     "),
-              OutlinedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white)),
-                  onPressed: () {
-                    setState(() => textUnselected = Colors.white);
-                    widget.prefs.setInt('textColorUnselect', textUnselected.value);
-                  },
-                  child: const Text("")),
-              const SizedBox(
-                width: 10,
-              ),
-              OutlinedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.black)),
-                  onPressed: () {
-                    setState(() => textUnselected = Colors.black);
-                    widget.prefs.setInt('textColorUnselect', textUnselected.value);
-                  },
-                  child: const Text("")),
-            ],
-          ),
-          const SizedBox(
-            height: 100,
-          ),
-          const Text("Preview :"),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment:MainAxisAlignment.center,
-            children: [
-          ElevatedButton(
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                backgroundColor: colorSelect,
-                shadowColor: Colors.black,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(500),
+
+          Column(children: [
+            const Text("Bouton non selectionné",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                  decoration: TextDecoration.underline,
+                )),
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("couleur du fond :     ",
+                    style: TextStyle(color: Colors.black, fontSize: 18)),
+               ClipOval(
+                    child: Material(
+                      color: colorUnselect,
+                      child: InkWell(
+                        onTap: () {
+                          _showDialog("colorUnselect");
+                        },
+                        child: const SizedBox(width: 38, height: 38),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("couleur du texte :     ",
+                    style: TextStyle(color: Colors.black, fontSize: 18)),
+                CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.white,
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() => textUnselected = Colors.white);
+                        widget.prefs
+                            .setInt('textColorUnselect', textUnselected.value);
+                      },
+                      icon: Icon(
+                        Icons.check,
+                        color: Colors.black,
+                        size: textUnselected == Colors.white ? 25 : 0,
+                      )),
                 ),
+                const SizedBox(
+                  width: 10,
+                ),
+                CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.black,
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() => textUnselected = Colors.black);
+                        widget.prefs
+                            .setInt('textColorUnselect', textUnselected.value);
+                      },
+                      icon: Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: textUnselected == Colors.black ? 25 : 0,
+                      )),
+                ),
+              ],
+            ),
+          ]),
+
+          Column(
+            children: [
+              const Text("Bouton selectionné",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                    decoration: TextDecoration.underline,
+                  )),
+              const SizedBox(
+                height: 15,
               ),
-              child: Text('69',
-                  style: TextStyle(fontSize: 48, color: textSelected))),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("couleur du fond :     ",
+                      style: TextStyle(color: Colors.black, fontSize: 18)),
+                  ClipOval(
+                    child: Material(
+                      color: colorSelect, // Button color
+                      child: InkWell(
+                        // Splash color
+                        onTap: () {
+                          _showDialog("colorSelect");
+                        },
+                        child: const SizedBox(width: 38, height: 38),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Couleur du texte:     ",
+                      style: TextStyle(color: Colors.black, fontSize: 18)),
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                        onPressed: () {
+                          setState(() => textSelected = Colors.white);
+                          widget.prefs
+                              .setInt('textColorSelect', textSelected.value);
+                        },
+                        icon: Icon(
+                          Icons.check,
+                          color: Colors.black,
+                          size: textSelected == Colors.white ? 25 : 0,
+                        )),
+                  ),
                   const SizedBox(
-            width: 10,
-          ),
-            ElevatedButton(
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                backgroundColor: colorUnselect,
-                shadowColor: Colors.black,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(500),
-                ),
+                    width: 10,
+                  ),
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.black,
+                    child: IconButton(
+                        onPressed: () {
+                          setState(() => textSelected = Colors.black);
+                          widget.prefs
+                              .setInt('textColorSelect', textSelected.value);
+                        },
+                        icon: Icon(
+                          Icons.check,
+                          color: Colors.white,
+                          size: textSelected == Colors.black ? 25 : 0,
+                        )),
+                  ),
+                ],
               ),
-              child: Text('69',
-                  style: TextStyle(fontSize: 48, color: textUnselected)))
-           ],
+            ],
+          ),
+
+          const Text("Aperçue :",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 22,
+                decoration: TextDecoration.underline,
+              )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () {},
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: colorUnselect,
+                    shadowColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(500),
+                    ),
+                  ),
+                  child: Text('69',
+                      style: TextStyle(fontSize: 48, color: textUnselected))),
+              const SizedBox(
+                width: 20,
+              ),
+              ElevatedButton(
+                  onPressed: () {},
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: colorSelect,
+                    shadowColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(500),
+                    ),
+                  ),
+                  child: Text('69',
+                      style: TextStyle(fontSize: 48, color: textSelected))),
+              const SizedBox(
+                width: 10,
+              ),
+            ],
           ),
         ]));
   }

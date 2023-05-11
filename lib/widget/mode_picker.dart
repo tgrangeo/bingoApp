@@ -11,62 +11,95 @@ class ModePicker extends StatefulWidget {
 }
 
 class _ModePicker extends State<ModePicker> {
-  int select = 0;
+  int select = 2;
+
+  @override
+  void initState() {
+    var mode = widget.prefs.getString("mode");
+    if (mode == "normal") {
+      select = 1;
+    } else {
+      select = 2;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Card(
-      color: Colors.grey[300],
+      color: Color.fromARGB(160, 228, 231, 234),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
-      elevation: 2,
-      child: Column(
-        children: [
-          Row(children: const [ SizedBox(width: 0),]),
-          const Text(
-            "Mode",
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              decoration: TextDecoration.underline,
+      elevation: 20,
+      child: Column(children: [
+        const SizedBox(height: 10),
+        const Text(
+          "Mode",
+          style: TextStyle(
+            fontSize: 33,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Expanded(
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          OutlinedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                  select == 1 ? Colors.black : Colors.transparent),
+              padding: MaterialStateProperty.all<EdgeInsets>(
+                  const EdgeInsets.all(20)),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                  //TODO: border bigger and black 
+                  // side: const BorderSide(width: 5.0, color: Colors.green),
+              // side: BorderSide(width: 5.0, color: Colors.green,style: BorderStyle.solid)
+            )),
+            ),
+            onPressed: () {
+              setState(() {
+                select = 1;
+              });
+              widget.prefs.setString('mode', "normal");
+            },
+            child: Text(
+              "Normal",
+              style: TextStyle(
+                  color: select == 1 ? Colors.white : Colors.black,
+                  fontSize: 22),
             ),
           ),
           const SizedBox(
-            height: 10,
+            width: 20,
           ),
-          Wrap(direction: Axis.vertical, spacing: 10, children: [
-            InkWell(
-              onTap: () {
-                setState(() {
-                  select = 1;
-                });
-                widget.prefs.setString('mode', "normal");
-              },
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                color: select == 1 ? Colors.amber : Colors.grey,
-                child: const Text("normal"),
-              ),
+          OutlinedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                  select == 2 ? Colors.black : Colors.transparent),
+              padding: MaterialStateProperty.all<EdgeInsets>(
+                  const EdgeInsets.all(20)),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+                side: const BorderSide(width: 2),
+              )),
             ),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  select = 2;
-                });
-                widget.prefs.setString('mode', "libre");
-              },
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                color: select == 2 ? Colors.amber : Colors.grey,
-                child: const Text("libre"),
-              ),
-            )
-          ])
-        ],
-      ),
+            onPressed: () {
+              setState(() {
+                select = 2;
+              });
+              widget.prefs.setString('mode', "libre");
+            },
+            child: Text(
+              "Libre",
+              style: TextStyle(
+                  color: select == 2 ? Colors.white : Colors.black,
+                  fontSize: 22),
+            ),
+          ),
+        ])),
+      ]),
     );
   }
 }

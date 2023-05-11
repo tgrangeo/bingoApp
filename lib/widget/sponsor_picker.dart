@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SponsorPicker extends StatefulWidget {
@@ -17,6 +18,7 @@ class _SponsorPicker extends State<SponsorPicker> {
   void initState() {
     pathList = widget.prefs.getStringList('imgList') as List<String>;
   }
+
   pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
@@ -27,7 +29,8 @@ class _SponsorPicker extends State<SponsorPicker> {
       for (int i = 0; i < files.length; i++) {
         print(files[i].path);
         if (files[i].path.split('.').last == 'png' ||
-            pathList[i].split('.').last == 'jpg' ||  pathList[i].split('.').last == 'jpeg') {
+            pathList[i].split('.').last == 'jpg' ||
+            pathList[i].split('.').last == 'jpeg') {
           // check cause allowed extension don't seems to work
           pathList.add(files[i].path);
         }
@@ -49,44 +52,58 @@ class _SponsorPicker extends State<SponsorPicker> {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 2,
-        // child: SponsorPicker(prefs: widget.prefs),
-        color: Colors.grey[300],
+        elevation: 20,
+        color: const Color.fromARGB(160, 228, 231, 234),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Column(
           children: [
+            const SizedBox(
+              height: 10,
+            ),
             const Text(
               "Sponsor",
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 33,
                 fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline,
               ),
             ),
             pathList.isNotEmpty
                 ? Expanded(
-                    // alignment: Alignment.center,
-                    // height: 200,
-                    // width: 400,
                     child: ListView.separated(
                     padding: const EdgeInsets.all(20.0),
                     itemCount: pathList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                           height: 50,
-                          color: Color.fromARGB(255, 47, 206, 206),
+                          padding: const EdgeInsets.only(right: 15, left: 15),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 2,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Center(
-                                  child: Text(pathList[index].split('/').last)),
+                                  child: Text(
+                                pathList[index].split('/').last,
+                                style: const TextStyle(fontSize: 22),
+                              )),
+                              const Expanded(child: SizedBox()),
                               IconButton(
+                                  iconSize: 30,
                                   onPressed: () {
                                     deletePath(index);
                                   },
-                                  icon: const Icon(Icons.delete))
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Colors.red[700],
+                                  ))
                             ],
                           ));
                     },
@@ -95,15 +112,29 @@ class _SponsorPicker extends State<SponsorPicker> {
                       height: 10,
                     ),
                   ))
-                : Text("no sponsor please add one"),
+                : const Expanded(
+                    child: Align(
+                        alignment: Alignment.center,
+                        child: Text("no sponsor please add one"))),
             const SizedBox(
               height: 10,
             ),
             OutlinedButton(
-                onPressed: (() {
-                  pickFile();
-                }),
-                child: const Text("add")),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.black),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                    const EdgeInsets.all(20)),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0))),
+              ),
+              onPressed: () {
+                pickFile();
+              },
+              child: const Text(
+                "Ajouter",
+                style: TextStyle(color: Colors.white, fontSize: 22),
+              ),
+            ),
             const SizedBox(
               height: 10,
             ),

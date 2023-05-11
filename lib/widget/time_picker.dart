@@ -74,81 +74,97 @@ class TimePicker extends StatefulWidget {
 }
 
 class _TimePicker extends State<TimePicker> {
-  int hours = 0;
-  int minutes = 0;
-  int secondes = 0;
+  late int hours;
+  late int minutes;
+  late int secondes;
+
+  @override
+  initState() {
+    hours = widget.prefs.getInt('hours') ?? 0;
+    minutes = widget.prefs.getInt('minutes') ?? 0;
+    secondes = widget.prefs.getInt('secondes') ?? 0;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 2,
-        color: Colors.grey[300],
+        elevation: 20,
+        color: Color.fromARGB(160, 228,231,234),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Column(
           children: [
+            const SizedBox(height: 10,),
             const Text(
-                  "Pause time",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-            const SizedBox(
-                  height: 20,
-                ),
-            Row(
+              "Temps de pause",
+              style: TextStyle(
+                fontSize: 33,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Expanded(child:Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("hours : "),
+                const Text("hours : ", style:TextStyle(fontSize: 22, color: Colors.black)),
                 DropdownButton(
                     value: hours,
+                    iconEnabledColor: Colors.black,
+                    style: const TextStyle(fontSize: 22, color: Colors.black),
                     items: timeList.map((int items) {
                       return DropdownMenuItem(
                         value: items,
-                        child: Text(items.toString()),
+                        child: Center(child: Text(items.toString())),
                       );
                     }).toList(),
                     onChanged: (value) => setState(() {
                           hours = value!;
                           widget.prefs.setInt('hours', hours);
+                          widget.prefs.setInt('minutes', minutes);
+                          widget.prefs.setInt('secondes', secondes);
                         })),
                 const SizedBox(
                   width: 5,
                 ),
-                const Text("min : "),
+                const Text("min : ", style:TextStyle(fontSize: 22, color: Colors.black)),
                 DropdownButton(
+                    iconEnabledColor: Colors.black,
                     value: minutes,
+                    style: const TextStyle(fontSize: 22, color: Colors.black),
                     items: timeList.map((int items) {
                       return DropdownMenuItem(
                         value: items,
-                        child: Text(items.toString()),
+                        child: Center(child: Text(items.toString())),
                       );
                     }).toList(),
                     onChanged: (value) => setState(() {
                           minutes = value!;
-                           widget.prefs.setInt('minutes', minutes);
+                          widget.prefs.setInt('hours', hours);
+                          widget.prefs.setInt('minutes', minutes);
+                          widget.prefs.setInt('secondes', secondes);
                         })),
                 const SizedBox(
                   width: 5,
                 ),
-                const Text("sec : "),
+                const Text("sec : ", style:TextStyle(fontSize: 22, color: Colors.black)),
                 DropdownButton(
                     value: secondes,
+                    iconEnabledColor: Colors.black,
+                    style: const TextStyle(fontSize: 22, color: Colors.black),
                     items: timeList.map((int items) {
                       return DropdownMenuItem(
                         value: items,
-                        child: Text(items.toString()),
+                        child: Center(child: Text(items.toString())),
                       );
                     }).toList(),
                     onChanged: (value) => setState(() {
                           secondes = value!;
+                          widget.prefs.setInt('hours', hours);
+                          widget.prefs.setInt('minutes', minutes);
                           widget.prefs.setInt('secondes', secondes);
                         })),
               ],
-            )
+            ))
           ],
         ));
   }

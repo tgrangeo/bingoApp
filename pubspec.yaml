@@ -43,6 +43,11 @@ dependencies:
   file_picker: ^5.2.11
   flutter_colorpicker: ^1.0.3
 
+fonts:
+  - family: Montserrat
+    fonts:
+      - asset: fonts/Montserrat.ttf
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

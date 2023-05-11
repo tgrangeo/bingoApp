@@ -13,6 +13,13 @@ class PauseScreen extends StatefulWidget {
 }
 
 class _PauseScreen extends State<PauseScreen> {
+  int sponsorLen = 0;
+
+  @override
+  void initState() {
+    sponsorLen = widget.prefs.getStringList('imgList')!.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -39,7 +46,7 @@ class _PauseScreen extends State<PauseScreen> {
               SizedBox(height: screenHeight * 0.15),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 SizedBox(width: screenWidth * 0.05),
-                StopWatchTimerPage(prefs:widget.prefs),
+                StopWatchTimerPage(prefs: widget.prefs),
                 SizedBox(width: screenWidth * 0.05),
               ]),
               SizedBox(height: screenWidth * 0.06),
@@ -49,10 +56,10 @@ class _PauseScreen extends State<PauseScreen> {
                       fontSize: 48,
                       decoration: TextDecoration.underline)),
               SizedBox(height: screenWidth * 0.01),
-              SizedBox(
+              sponsorLen > 0 ? SizedBox(
                 width: screenWidth * 0.6,
-                child: CarouselWidget(prefs:widget.prefs),
-              )
+                child: CarouselWidget(prefs: widget.prefs),
+              ): const Text("no sponsor"),
             ])));
   }
 }
