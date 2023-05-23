@@ -37,6 +37,11 @@ class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
     startTimer();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   void reset() {
     if (countDown) {
       setState(() => duration = countdownDuration);

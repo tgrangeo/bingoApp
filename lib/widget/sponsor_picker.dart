@@ -19,6 +19,11 @@ class _SponsorPicker extends State<SponsorPicker> {
     pathList = widget.prefs.getStringList('imgList') as List<String>;
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,

@@ -84,6 +84,10 @@ class _TimePicker extends State<TimePicker> {
     minutes = widget.prefs.getInt('minutes') ?? 0;
     secondes = widget.prefs.getInt('secondes') ?? 0;
   }
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

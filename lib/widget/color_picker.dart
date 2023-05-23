@@ -34,6 +34,11 @@ class _ColorPickerWidget extends State<ColorPickerWidget> {
         Color(widget.prefs.getInt('textColorSelect') ?? Colors.black.value);
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   void changeColor(Color color) {
     setState(() => pickerColor = color);
   }

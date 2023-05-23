@@ -12,7 +12,7 @@ class CarouselWidget extends StatefulWidget {
 }
 
 class _CarouselWidget extends State<CarouselWidget> {
-  int _current = 0;
+  // int _current = 0;
   List<String> imgList = [];
   late var child;
 
@@ -23,7 +23,7 @@ class _CarouselWidget extends State<CarouselWidget> {
           imgList,
           (index, i) {
             return Container(
-              margin: EdgeInsets.all(5.0),
+              margin: const EdgeInsets.all(5.0),
               child: Stack(children: <Widget>[
                 Image(
                   image: FileImage(File(i)),
@@ -42,6 +42,10 @@ class _CarouselWidget extends State<CarouselWidget> {
   void initState() {
     super.initState();
     createList();
+  }
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   static List<T> map<T>(List list, Function handler) {
