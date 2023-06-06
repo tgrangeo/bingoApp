@@ -34,7 +34,7 @@ class _ModePicker extends State<ModePicker> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Card(
-      color: Color.fromARGB(160, 228, 231, 234),
+      color: Color.fromARGB(151, 228, 231, 234),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),

@@ -1,4 +1,3 @@
-import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -84,6 +83,7 @@ class _TimePicker extends State<TimePicker> {
     minutes = widget.prefs.getInt('minutes') ?? 0;
     secondes = widget.prefs.getInt('secondes') ?? 0;
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -93,13 +93,15 @@ class _TimePicker extends State<TimePicker> {
   Widget build(BuildContext context) {
     return Card(
         elevation: 20,
-        color: Color.fromARGB(160, 228,231,234),
+        color: Color.fromARGB(160, 228, 231, 234),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Column(
           children: [
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             const Text(
               "Temps de pause",
               style: TextStyle(
@@ -107,10 +109,12 @@ class _TimePicker extends State<TimePicker> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Expanded(child:Row(
+            Expanded(
+                child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("hours : ", style:TextStyle(fontSize: 22, color: Colors.black)),
+                const Text("hours : ",
+                    style: TextStyle(fontSize: 22, color: Colors.black)),
                 DropdownButton(
                     value: hours,
                     iconEnabledColor: Colors.black,
@@ -130,7 +134,8 @@ class _TimePicker extends State<TimePicker> {
                 const SizedBox(
                   width: 5,
                 ),
-                const Text("min : ", style:TextStyle(fontSize: 22, color: Colors.black)),
+                const Text("min : ",
+                    style: TextStyle(fontSize: 22, color: Colors.black)),
                 DropdownButton(
                     iconEnabledColor: Colors.black,
                     value: minutes,
@@ -150,7 +155,8 @@ class _TimePicker extends State<TimePicker> {
                 const SizedBox(
                   width: 5,
                 ),
-                const Text("sec : ", style:TextStyle(fontSize: 22, color: Colors.black)),
+                const Text("sec : ",
+                    style: TextStyle(fontSize: 22, color: Colors.black)),
                 DropdownButton(
                     value: secondes,
                     iconEnabledColor: Colors.black,

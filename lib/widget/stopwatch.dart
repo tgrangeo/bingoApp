@@ -103,19 +103,22 @@ class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                color: Color.fromARGB(93, 216, 215, 215),
-                borderRadius: BorderRadius.circular(20)),
-            child: Text(
-              time,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: MediaQuery.of(context).size.width * 0.13),
-            ),
-          ),
+          Card(
+              color: const Color.fromARGB(122, 228, 231, 234),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              elevation: 20,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  time,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: MediaQuery.of(context).size.width * 0.13),
+                ),
+              )),
           const SizedBox(
             height: 24,
           ),
@@ -125,33 +128,4 @@ class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
                   fontSize: MediaQuery.of(context).size.width * 0.018)),
         ],
       );
-
-  // Widget buildButtons() {
-  //   final isRunning = timer == null ? false : timer!.isActive;
-  //   final isCompleted = duration.inSeconds == 0;
-  //   return isRunning || isCompleted
-  //       ? Row(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: [
-  //             ButtonWidget(
-  //                 text: 'STOP',
-  //                 onClicked: () {
-  //                   if (isRunning) {
-  //                     stopTimer(resets: false);
-  //                   }
-  //                 }),
-  //             const SizedBox(
-  //               width: 12,
-  //             ),
-  //             ButtonWidget(text: "CANCEL", onClicked: stopTimer),
-  //           ],
-  //         )
-  //       : ButtonWidget(
-  //           text: "Start Timer!",
-  //           color: Colors.black,
-  //           backgroundColor: Colors.white,
-  //           onClicked: () {
-  //             startTimer();
-  //           });
-  // }
 }

@@ -1,10 +1,12 @@
 import 'dart:math';
 
-import 'package:flutter_animated_button/flutter_animated_button.dart';
+import 'package:bingo/view/pauseScreen.dart';
 import 'package:flutter/material.dart';
 import 'pauseScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:confetti/confetti.dart';
+import '../style/style.dart' as s;
+import 'dart:math' as math;
 
 class GameScreen extends StatefulWidget {
   final SharedPreferences prefs;
@@ -27,20 +29,23 @@ class _GameScreen extends State<GameScreen> {
   late Color textselected;
   late String mode;
   late bool checkboxValue;
+  late Color hovercolor;
 
   @override
   initState() {
     mode = widget.prefs.getString('mode') ?? "libre";
     checkboxValue = false;
+    hovercolor = Colors.transparent;
     unselected =
         Color(widget.prefs.getInt('colorUnselect') ?? Colors.black.value);
     selected = Color(widget.prefs.getInt('colorSelect') ??
-        const Color.fromARGB(255, 252, 179, 51).value);
+        Color.fromARGB(255, 252, 178, 51).value);
     textunselected =
         Color(widget.prefs.getInt('textColorUnselect') ?? Colors.white.value);
     textselected =
         Color(widget.prefs.getInt('textColorSelect') ?? Colors.black.value);
   }
+
   @override
   void dispose() {
     confettiController.dispose();
@@ -165,23 +170,53 @@ class _GameScreen extends State<GameScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+        backgroundColor: s.Style.grey,
         body: Container(
-            //color: Color.fromARGB(255, 66, 66, 66),
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Color(0xffD7DDE8), // (144, 144, 144, 1),
+                Color.fromARGB(255, 152, 136, 93),
+                // Color(0xff757F9A),
+                // const Color.fromARGB(255, 252, 179, 51),
+              ],
+            )),
             alignment: Alignment.center,
             child: Row(
               children: [
-                // Align(alignment: Alignment.topCenter,child:ConfettiWidget(confettiController: confettiController, shouldLoop: true,child: const SizedBox(width: 0,),)),
                 AnimatedContainer(
                   height: double.infinity,
-                  width: !(isHover) ? 50 : 200,
+                  width: !(isHover) ? 70 : 200,
                   duration: const Duration(milliseconds: 250),
                   padding: const EdgeInsets.only(right: 10),
                   child: Container(
-                    color: Colors.grey,
+                    // decoration: const BoxDecoration(
+                    //     gradient: LinearGradient(
+                    //   begin: Alignment.topCenter,
+                    //   end: Alignment.bottomCenter,
+                    //   colors: [
+                    //     // Color.fromARGB(
+                    //     //   255, 102, 104, 108), // (144, 144, 144, 1),
+                    //     Color(0xffFCB233),
+                    //     Color(0xffd3d3d3),
+                    //     // Color(0xff757F9A),
+                    //     // const Color.fromARGB(255, 252, 179, 51),
+                    //   ],
+                    // )),
                     child: InkWell(
                       onTap: () {},
                       child: !(isHover)
-                          ? const SizedBox()
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Transform.rotate(
+                                    angle: math.pi / 180 * 180,
+                                    alignment: Alignment.center,
+                                    child: const Icon(Icons.menu_open, size: 42,))
+                              ],
+                            ) //const SizedBox()
                           : Column(
                               children: [
                                 const SizedBox(height: 10),
@@ -190,46 +225,64 @@ class _GameScreen extends State<GameScreen> {
                                   fit: BoxFit.cover,
                                   width: 170,
                                 ),
+                                const SizedBox(height: 20),
+                                SizedBox(
+                                    height: 40,
+                                    width: 150,
+                                    child: OutlinedButton(
+                                        style: OutlinedButton.styleFrom(
+                                          backgroundColor: Colors.transparent,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0)),
+                                          side: const BorderSide(
+                                              color: Colors.black, width: 2),
+                                        ),
+                                        onPressed: reset,
+                                        child: const Text(
+                                          "Reset",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black),
+                                        ))),
                                 const SizedBox(height: 10),
-                                const SizedBox(height: 10),
-                                AnimatedButton(
-                                  height: 40,
-                                  width: 150,
-                                  text: "Reset",
-                                  onPress: reset,
-                                  isReverse: true,
-                                  selectedTextColor: Colors.black,
-                                  animatedOn: AnimatedOn.onHover,
-                                  transitionType: TransitionType.LEFT_TO_RIGHT,
-                                  backgroundColor: Colors.grey,
-                                  borderColor: Colors.white,
-                                  borderRadius: 20,
-                                  borderWidth: 2,
-                                ),
-                                const SizedBox(height: 10),
-                                AnimatedButton(
-                                  height: 40,
-                                  width: 150,
-                                  text: "Pause",
-                                  onPress: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            PauseScreen(prefs: widget.prefs),
-                                      ),
-                                    );
-                                  },
-                                  isReverse: true,
-                                  selectedTextColor: Colors.black,
-                                  animatedOn: AnimatedOn.onHover,
-                                  transitionType: TransitionType.LEFT_TO_RIGHT,
-                                  backgroundColor: Colors.grey,
-                                  borderColor: Colors.white,
-                                  borderRadius: 20,
-                                  borderWidth: 2,
-                                ),
+                                SizedBox(
+                                    height: 40,
+                                    width: 150,
+                                    child: OutlinedButton(
+                                        style: OutlinedButton.styleFrom(
+                                          backgroundColor: Colors.transparent,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0)),
+                                          side: const BorderSide(
+                                              color: Colors.black, width: 2),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PauseScreen(
+                                                      prefs: widget.prefs),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text(
+                                          "Pause",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black),
+                                        ))),
                                 const SizedBox(height: 10),
                                 InkWell(
+                                  onHover: ((value) {
+                                    // if (value == true) {
+                                    //   hovercolor = Colors.grey[200]!;
+                                    // } else {
+                                    //   hovercolor = Colors.transparent;
+                                    // }
+                                    setState(() {});
+                                  }),
                                   onTap: () {
                                     print(verif);
                                     setState(() {
@@ -242,40 +295,67 @@ class _GameScreen extends State<GameScreen> {
                                       }
                                     });
                                   },
-                                  child: Container(
+                                  child: mode == "normal"
+                                      ? Container(
+                                          height: 40,
+                                          width: 150,
+                                          decoration: BoxDecoration(
+                                              color: hovercolor,
+                                              border: Border.all(
+                                                  color: Colors.black,
+                                                  width: 2),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(20))),
+                                          child: Row(
+                                            children: [
+                                              const SizedBox(width: 25),
+                                              Checkbox(
+                                                fillColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.black),
+                                                checkColor: s.Style.yellow,
+                                                value: checkboxValue,
+                                                onChanged: null,
+                                              ),
+                                              const SizedBox(width: 3),
+                                              const Text(
+                                                "Verif",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.black),
+                                              )
+                                            ],
+                                          ))
+                                      : const SizedBox(
+                                          width: 0,
+                                        ),
+                                ),
+                                SizedBox(height: screenHeight * 0.6),
+                                SizedBox(
                                     height: 40,
                                     width: 150,
-                                    decoration:
-                                        BoxDecoration(border: Border.all(color: Colors.white,width: 2),borderRadius: const BorderRadius.all(Radius.circular(20))),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Checkbox(
-                                          value: checkboxValue,
-                                          onChanged: null,
+                                    child: OutlinedButton.icon(
+                                        icon: Icon(
+                                          Icons.arrow_back,
+                                          color: Colors.black,
                                         ),
-                                        const Text("Verif", style: TextStyle(fontSize: 20, color: Colors.white),)
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 580),
-                                AnimatedButton(
-                                  height: 40,
-                                  width: 150,
-                                  text: "Back",
-                                  onPress: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  isReverse: true,
-                                  selectedTextColor: Colors.black,
-                                  animatedOn: AnimatedOn.onHover,
-                                  transitionType: TransitionType.LEFT_TO_RIGHT,
-                                  backgroundColor: Colors.grey,
-                                  borderColor: Colors.white,
-                                  borderRadius: 20,
-                                  borderWidth: 2,
-                                ),
+                                        style: OutlinedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0)),
+                                          side: const BorderSide(
+                                              color: Colors.black, width: 2),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        label: const Text(
+                                          "Back",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black),
+                                        ))),
                               ],
                             ),
                       onHover: (val) {
@@ -286,7 +366,7 @@ class _GameScreen extends State<GameScreen> {
                     ),
                   ),
                 ),
-                SizedBox(width: screenWidth * 0.1),
+                SizedBox(width: screenWidth * 0.08),
                 Container(
                     // size de la grille
                     width: screenWidth * 0.8,
