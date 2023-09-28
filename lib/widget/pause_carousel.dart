@@ -19,23 +19,23 @@ class _CarouselWidget extends State<CarouselWidget> {
   createList() {
     imgList = widget.prefs.getStringList('imgList') as List<String>;
     child = imgList.isNotEmpty
-      ? map<Widget>(
-          imgList,
-          (index, i) {
-            return Container(
-              margin: const EdgeInsets.all(5.0),
-              child: Stack(children: <Widget>[
-                Image(
-                  image: FileImage(File(i)),
-                  fit: BoxFit.cover,
-                  // width: 50,
-                  height: 250, //screenWidth * 0.2,
-                ),
-              ]),
-            );
-          },
-        ).toList()
-      : null;
+        ? map<Widget>(
+            imgList,
+            (index, i) {
+              return Container(
+                margin: const EdgeInsets.all(5.0),
+                child: Stack(children: <Widget>[
+                  Image(
+                    image: FileImage(File(i)),
+                    fit: BoxFit.contain,
+                    // width: 50,
+                    height: 250, //screenWidth * 0.2,
+                  ),
+                ]),
+              );
+            },
+          ).toList()
+        : null;
   }
 
   @override
@@ -43,6 +43,7 @@ class _CarouselWidget extends State<CarouselWidget> {
     super.initState();
     createList();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -53,7 +54,6 @@ class _CarouselWidget extends State<CarouselWidget> {
     for (var i = 0; i < list.length; i++) {
       result.add(handler(i, list[i]));
     }
-
     return result;
   }
 

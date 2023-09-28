@@ -27,7 +27,7 @@ class _SponsorPicker extends State<SponsorPicker> {
   pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
-      allowedExtensions: ['jpg', 'png', 'jpeg'],
+      allowedExtensions: ['jpg', 'png', 'jpeg', 'svg'],
     );
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path!)).toList();
@@ -35,7 +35,8 @@ class _SponsorPicker extends State<SponsorPicker> {
         print(files[i].path);
         if (files[i].path.split('.').last == 'png' ||
             pathList[i].split('.').last == 'jpg' ||
-            pathList[i].split('.').last == 'jpeg') {
+            pathList[i].split('.').last == 'jpeg' ||
+            pathList[i].split('.').last == 'svg') {
           // check cause allowed extension don't seems to work
           pathList.add(files[i].path);
         }

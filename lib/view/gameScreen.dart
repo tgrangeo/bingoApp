@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bingo/view/pauseScreen.dart';
+import 'package:bingo/widget/game_carrousel.dart';
 import 'package:flutter/material.dart';
 import 'pauseScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +31,8 @@ class _GameScreen extends State<GameScreen> {
   late String mode;
   late bool checkboxValue;
   late Color hovercolor;
+  final drop_items = ["jeu", "1 ligne", "2 lignes", "bingo"];
+  String drop_value = "jeu";
 
   @override
   initState() {
@@ -59,56 +62,42 @@ class _GameScreen extends State<GameScreen> {
     setState(() {});
   }
 
-  void showBingo() {
+  void showBingo(String str) {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
+        backgroundColor: Color.fromARGB(200, 0, 0, 0),
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32.0))),
-        content: Stack(alignment: AlignmentDirectional.center, children: [
-          Row(
-            children: const [
-              Image(
-                image: AssetImage('assets/party.png'),
-                fit: BoxFit.cover,
-                width: 170,
-              ),
-              Text(
-                'Bingo',
-                style: TextStyle(fontSize: 100),
-              ),
-              Image(
-                image: AssetImage('assets/party.png'),
-                fit: BoxFit.cover,
-                width: 170,
-              ),
-            ],
-          ),
-          Align(
-              alignment: Alignment.centerLeft,
-              child: ConfettiWidget(
-                confettiController: confettiController,
-                numberOfParticles: 50,
-                emissionFrequency: 0.01,
-                shouldLoop: true,
-                blastDirection: 7 * pi / 6,
-                child: const SizedBox(
-                  width: 0,
+            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+            side: BorderSide(
+                color: Color.fromARGB(255, 252, 178, 51), width: 2.0)),
+        content: Container(
+          height: 200,
+          child: Stack(alignment: AlignmentDirectional.center, children: [
+            Row(
+              children: [
+                Transform.rotate(
+                  angle: math.pi / 180 * 275,
+                  child: const Image(
+                    image: AssetImage('assets/party.png'),
+                    fit: BoxFit.cover,
+                    width: 170,
+                  ),
                 ),
-              )),
-          Align(
-              alignment: Alignment.centerRight,
-              child: ConfettiWidget(
-                confettiController: confettiController,
-                numberOfParticles: 50,
-                emissionFrequency: 0.01,
-                shouldLoop: true,
-                blastDirection: 11 * pi / 6,
-                child: const SizedBox(
-                  width: 0,
+                Text(
+                  str,
+                  style: const TextStyle(
+                      fontSize: 100, color: Color.fromARGB(255, 252, 178, 51)),
                 ),
-              )),
-        ]),
+                const Image(
+                  image: AssetImage('assets/party.png'),
+                  fit: BoxFit.cover,
+                  width: 170,
+                ),
+              ],
+            ),
+          ]),
+        ),
         actionsAlignment: MainAxisAlignment.center,
         actions: <Widget>[
           OutlinedButton(
@@ -118,7 +107,7 @@ class _GameScreen extends State<GameScreen> {
             },
             child: const Text(
               'fermer',
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Color.fromARGB(255, 252, 178, 51)),
             ),
           ),
         ],
@@ -132,8 +121,14 @@ class _GameScreen extends State<GameScreen> {
         bingo.remove(index);
       } else if (selectedIndex.contains(index)) {
         bingo.add(index);
-        if (bingo.length == 5) {
-          showBingo();
+        if (bingo.length == 5 && drop_value == "1 ligne") {
+          showBingo("1 Ligne");
+          confettiController.play();
+        } else if (bingo.length == 10 && drop_value == "2 lignes") {
+          showBingo("2 Lignes");
+          confettiController.play();
+        } else if (bingo.length == 15 && drop_value == "bingo") {
+          showBingo("Bingo");
           confettiController.play();
         }
       }
@@ -153,6 +148,8 @@ class _GameScreen extends State<GameScreen> {
         return Colors.red; // select
       } else if (selectedIndex.contains(index)) {
         return selected; // verif
+      } else {
+        return unselected;
       }
     } else {
       if (selectedIndex.contains(index)) {
@@ -161,8 +158,16 @@ class _GameScreen extends State<GameScreen> {
         return unselected; //select
       }
     }
-    return Colors.black; // pitier jamais la
   }
+
+  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+        value: item,
+        child: Text(
+          item,
+          textAlign: TextAlign.end,
+          style: const TextStyle(fontSize: 22, color: Colors.black),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -177,207 +182,159 @@ class _GameScreen extends State<GameScreen> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                Color(0xffD7DDE8), // (144, 144, 144, 1),
+                Color(0xffD7DDE8),
                 Color.fromARGB(255, 152, 136, 93),
-                // Color(0xff757F9A),
-                // const Color.fromARGB(255, 252, 179, 51),
               ],
             )),
             alignment: Alignment.center,
             child: Row(
               children: [
-                AnimatedContainer(
-                  height: double.infinity,
-                  width: !(isHover) ? 70 : 200,
-                  duration: const Duration(milliseconds: 250),
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Container(
-                    // decoration: const BoxDecoration(
-                    //     gradient: LinearGradient(
-                    //   begin: Alignment.topCenter,
-                    //   end: Alignment.bottomCenter,
-                    //   colors: [
-                    //     // Color.fromARGB(
-                    //     //   255, 102, 104, 108), // (144, 144, 144, 1),
-                    //     Color(0xffFCB233),
-                    //     Color(0xffd3d3d3),
-                    //     // Color(0xff757F9A),
-                    //     // const Color.fromARGB(255, 252, 179, 51),
-                    //   ],
-                    // )),
-                    child: InkWell(
-                      onTap: () {},
-                      child: !(isHover)
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Transform.rotate(
-                                    angle: math.pi / 180 * 180,
-                                    alignment: Alignment.center,
-                                    child: const Icon(Icons.menu_open, size: 42,))
-                              ],
-                            ) //const SizedBox()
-                          : Column(
-                              children: [
-                                const SizedBox(height: 10),
-                                const Image(
-                                  image: AssetImage('assets/logo_caserne.png'),
-                                  fit: BoxFit.cover,
-                                  width: 170,
-                                ),
-                                const SizedBox(height: 20),
-                                SizedBox(
-                                    height: 40,
-                                    width: 150,
-                                    child: OutlinedButton(
-                                        style: OutlinedButton.styleFrom(
-                                          backgroundColor: Colors.transparent,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0)),
-                                          side: const BorderSide(
-                                              color: Colors.black, width: 2),
-                                        ),
-                                        onPressed: reset,
-                                        child: const Text(
-                                          "Reset",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black),
-                                        ))),
-                                const SizedBox(height: 10),
-                                SizedBox(
-                                    height: 40,
-                                    width: 150,
-                                    child: OutlinedButton(
-                                        style: OutlinedButton.styleFrom(
-                                          backgroundColor: Colors.transparent,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0)),
-                                          side: const BorderSide(
-                                              color: Colors.black, width: 2),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PauseScreen(
-                                                      prefs: widget.prefs),
-                                            ),
-                                          );
-                                        },
-                                        child: const Text(
-                                          "Pause",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black),
-                                        ))),
-                                const SizedBox(height: 10),
-                                InkWell(
-                                  onHover: ((value) {
-                                    // if (value == true) {
-                                    //   hovercolor = Colors.grey[200]!;
-                                    // } else {
-                                    //   hovercolor = Colors.transparent;
-                                    // }
-                                    setState(() {});
-                                  }),
-                                  onTap: () {
-                                    print(verif);
-                                    setState(() {
-                                      if (verif) {
-                                        verif = false;
-                                        checkboxValue = false;
-                                      } else {
-                                        verif = true;
-                                        checkboxValue = true;
-                                      }
-                                    });
+                Column(
+                  children: [
+                    SizedBox(
+                      height: screenHeight * 0.45,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 10),
+                          const Image(
+                            image: AssetImage('assets/logo_caserne.png'),
+                            fit: BoxFit.cover,
+                            width: 170,
+                          ),
+                          const SizedBox(height: 20),
+                          SizedBox(
+                              height: 40,
+                              width: 150,
+                              child: OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0)),
+                                    side: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                  ),
+                                  onPressed: reset,
+                                  child: const Text(
+                                    "Reset",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
+                                  ))),
+                          const SizedBox(height: 10),
+                          SizedBox(
+                              height: 40,
+                              width: 150,
+                              child: OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0)),
+                                    side: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            PauseScreen(prefs: widget.prefs),
+                                      ),
+                                    );
                                   },
-                                  child: mode == "normal"
-                                      ? Container(
-                                          height: 40,
-                                          width: 150,
-                                          decoration: BoxDecoration(
-                                              color: hovercolor,
-                                              border: Border.all(
-                                                  color: Colors.black,
-                                                  width: 2),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(20))),
-                                          child: Row(
-                                            children: [
-                                              const SizedBox(width: 25),
-                                              Checkbox(
-                                                fillColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.black),
-                                                checkColor: s.Style.yellow,
-                                                value: checkboxValue,
-                                                onChanged: null,
-                                              ),
-                                              const SizedBox(width: 3),
-                                              const Text(
-                                                "Verif",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: Colors.black),
-                                              )
-                                            ],
-                                          ))
-                                      : const SizedBox(
-                                          width: 0,
-                                        ),
+                                  child: const Text(
+                                    "Pause",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
+                                  ))),
+                          const SizedBox(height: 10),
+                          mode == "normal"
+                              ? Container(
+                                  padding: const EdgeInsetsDirectional.only(
+                                      start: 30),
+                                  height: 40,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                      color: hovercolor,
+                                      border: Border.all(
+                                          color: Colors.black, width: 2),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(20))),
+                                  child: DropdownButton<String>(
+                                    underline: Container(
+                                      // Supprimer la ligne de soulignement
+                                      height: 0,
+                                    ),
+                                    icon: const Icon(
+                                      // Changer la couleur de la petite flèche en noir
+                                      Icons.arrow_drop_down,
+                                      color: Colors.black,
+                                    ),
+                                    items:
+                                        drop_items.map(buildMenuItem).toList(),
+                                    value: drop_value,
+                                    onChanged: (value) => setState(() {
+                                      if (value != null) {
+                                        drop_value = value;
+                                        if (value == "jeu") {
+                                          verif = false;
+                                          bingo.clear();
+                                        } else {
+                                          verif = true;
+                                        }
+                                        print(drop_value);
+                                        print(verif);
+                                      }
+                                    }),
+                                  ))
+                              : const SizedBox(
+                                  width: 0,
                                 ),
-                                SizedBox(height: screenHeight * 0.6),
-                                SizedBox(
-                                    height: 40,
-                                    width: 150,
-                                    child: OutlinedButton.icon(
-                                        icon: Icon(
-                                          Icons.arrow_back,
-                                          color: Colors.black,
-                                        ),
-                                        style: OutlinedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0)),
-                                          side: const BorderSide(
-                                              color: Colors.black, width: 2),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        label: const Text(
-                                          "Back",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black),
-                                        ))),
-                              ],
-                            ),
-                      onHover: (val) {
-                        setState(() {
-                          isHover = val;
-                        });
-                      },
+                          SizedBox(height: screenHeight * 0.01),
+                          SizedBox(
+                              height: 40,
+                              width: 150,
+                              child: OutlinedButton.icon(
+                                  icon: const Icon(
+                                    Icons.arrow_back,
+                                    color: Colors.black,
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0)),
+                                    side: const BorderSide(
+                                        color: Colors.black, width: 2),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  label: const Text(
+                                    "Back",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
+                                  ))),
+                        ],
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      height: screenHeight * 0.55,
+                      width: 170,
+                      child: GameCarouselWidget(prefs: widget.prefs),
+                    )
+                  ],
                 ),
-                SizedBox(width: screenWidth * 0.08),
-                Container(
+                SizedBox(width: screenWidth * 0.04),
+                SizedBox(
                     // size de la grille
                     width: screenWidth * 0.8,
                     child: GridView(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 11,
+                        crossAxisCount: 10,
                         mainAxisExtent: screenHeight * 0.1,
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
                       ),
-                      children: List<Widget>.generate(99, (int i) {
+                      children: List<Widget>.generate(90, (int i) {
                         return Builder(builder: (BuildContext context) {
                           return ElevatedButton(
                               onPressed: () {
@@ -399,8 +356,6 @@ class _GameScreen extends State<GameScreen> {
                         });
                       }),
                     )),
-                // Align(alignment: Alignment.topCenter,child:ConfettiWidget(confettiController: confettiController, shouldLoop: true,child: const SizedBox(width: 0,),)),
-                //  Align(alignment: Alignment.bottomLeft,child:ConfettiWidget(confettiController: confettiController, shouldLoop: true,child: const SizedBox(width: 0,),)),
               ],
             )));
   }

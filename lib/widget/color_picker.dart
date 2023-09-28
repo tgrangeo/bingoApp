@@ -7,26 +7,24 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class ColorPickerWidget extends StatefulWidget {
   final SharedPreferences prefs;
-  ColorPickerWidget({super.key, required this.prefs});
+  const ColorPickerWidget({super.key, required this.prefs});
   @override
   _ColorPickerWidget createState() => _ColorPickerWidget();
 }
 
 class _ColorPickerWidget extends State<ColorPickerWidget> {
-  Color pickerColor = Color(0xff443a49);
-  // Color currentColor = Color(0xff443a49);
-
+  Color pickerColor = const Color(0xff443a49);
   late Color colorSelect;
   late Color colorUnselect;
   late Color textSelected;
   late Color textUnselected;
+  final Color orange = const Color.fromARGB(255, 252, 179, 51);
 
   @override
   initState() {
     colorUnselect =
         Color(widget.prefs.getInt('colorUnselect') ?? Colors.black.value);
-    colorSelect = Color(widget.prefs.getInt('colorSelect') ??
-        const Color.fromARGB(255, 252, 179, 51).value);
+    colorSelect = Color(widget.prefs.getInt('colorSelect') ?? orange.value);
 
     textUnselected =
         Color(widget.prefs.getInt('textColorUnselect') ?? Colors.white.value);
@@ -75,6 +73,19 @@ class _ColorPickerWidget extends State<ColorPickerWidget> {
         });
   }
 
+  void reset() {
+    setState(() {
+      colorSelect = orange;
+      colorUnselect = Colors.black;
+      textSelected = Colors.black;
+      textUnselected = Colors.white;
+      widget.prefs.setInt('colorSelect', colorSelect.value);
+      widget.prefs.setInt('colorUnselect', colorUnselect.value);
+      widget.prefs.setInt('textColorSelect', textSelected.value);
+      widget.prefs.setInt('textColorUnselect', textUnselected.value);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -88,7 +99,6 @@ class _ColorPickerWidget extends State<ColorPickerWidget> {
         elevation: 20,
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          // const SizedBox(height: 10,),
           const Text(
             "Couleurs des nombres",
             style: TextStyle(
@@ -96,7 +106,6 @@ class _ColorPickerWidget extends State<ColorPickerWidget> {
               fontWeight: FontWeight.bold,
             ),
           ),
-
           Column(children: [
             const Text("Bouton non selectionné",
                 style: TextStyle(
@@ -112,17 +121,17 @@ class _ColorPickerWidget extends State<ColorPickerWidget> {
               children: [
                 const Text("couleur du fond :     ",
                     style: TextStyle(color: Colors.black, fontSize: 18)),
-               ClipOval(
-                    child: Material(
-                      color: colorUnselect,
-                      child: InkWell(
-                        onTap: () {
-                          _showDialog("colorUnselect");
-                        },
-                        child: const SizedBox(width: 38, height: 38),
-                      ),
+                ClipOval(
+                  child: Material(
+                    color: colorUnselect,
+                    child: InkWell(
+                      onTap: () {
+                        _showDialog("colorUnselect");
+                      },
+                      child: const SizedBox(width: 38, height: 38),
                     ),
                   ),
+                ),
               ],
             ),
             const SizedBox(
@@ -169,7 +178,6 @@ class _ColorPickerWidget extends State<ColorPickerWidget> {
               ],
             ),
           ]),
-
           Column(
             children: [
               const Text("Bouton selectionné",
@@ -245,7 +253,6 @@ class _ColorPickerWidget extends State<ColorPickerWidget> {
               ),
             ],
           ),
-
           const Text("Aperçue :",
               style: TextStyle(
                 color: Colors.black,
@@ -280,11 +287,9 @@ class _ColorPickerWidget extends State<ColorPickerWidget> {
                   ),
                   child: Text('69',
                       style: TextStyle(fontSize: 48, color: textSelected))),
-              const SizedBox(
-                width: 10,
-              ),
             ],
           ),
+          ElevatedButton(onPressed: reset, child: Text("reset")),
         ]));
   }
 }

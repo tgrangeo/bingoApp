@@ -1,5 +1,5 @@
 //import 'package:flutter_animated_button/flutter_animated_button.dart';
-import 'package:bingo/widget/carousel.dart';
+import 'package:bingo/widget/pause_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widget/stopwatch.dart';
@@ -55,20 +55,16 @@ class _PauseScreen extends State<PauseScreen> with TickerProviderStateMixin {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      icon: const Icon(Icons.arrow_back, size: 42,))),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        size: 42,
+                      ))),
               SizedBox(height: screenHeight * 0.15),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Lottie.asset(
-                'assets/lottie/jonage_updown.json',
-                animate: true,
-                repeat: true,
-                width: 300,
-                height: 300,
-              ),
+                  Image(
+                      image: const AssetImage('assets/logo_caserne.png'),
+                      width: screenHeight * 0.3),
                   SizedBox(width: screenWidth * 0.05),
                   StopWatchTimerPage(prefs: widget.prefs),
                   SizedBox(width: screenWidth * 0.05),

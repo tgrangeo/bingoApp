@@ -33,17 +33,15 @@ class _MyHomePageState extends State<MyHomePage> {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [
-            Color(0xffD7DDE8), // (144, 144, 144, 1),
+            Color(0xffD7DDE8),
             Color.fromARGB(255, 152, 136, 93),
-            // Color(0xff757F9A),
-            // const Color.fromARGB(255, 252, 179, 51),
           ],
         )),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              height: screenHeight * 0.07,
+              height: screenHeight * 0.056,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -63,7 +61,6 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SizedBox(
-                    //TODO: height responsive
                     height: 600,
                     child: Row(
                       children: [
