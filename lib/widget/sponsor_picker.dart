@@ -16,7 +16,13 @@ class _SponsorPicker extends State<SponsorPicker> {
 
   @override
   void initState() {
-    pathList = widget.prefs.getStringList('imgList') as List<String>;
+    // List<String>? imgList = widget.prefs.getStringList('imgList');
+    // if (imgList != null) {
+    //   pathList = imgList;
+    // } else {
+    // Si la valeur est null, initialisez pathList comme une nouvelle liste vide.
+    pathList = [];
+    // }
   }
 
   @override
@@ -49,7 +55,6 @@ class _SponsorPicker extends State<SponsorPicker> {
   }
 
   deletePath(int i) {
-    print(i);
     pathList.removeAt(i);
     widget.prefs.setStringList('imgList', pathList);
     setState(() {});
