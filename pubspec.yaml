@@ -42,6 +42,7 @@ dependencies:
   shared_preferences: ^2.1.1 
   lottie: ^2.3.2
   permission_handler: ^11.0.1
+  audioplayers: ^5.2.0
 
 fonts:
   - family: Montserrat

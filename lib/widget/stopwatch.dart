@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'button_widget.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class ScaleSize {
   static double textScaleFactor(BuildContext context,
@@ -25,6 +26,7 @@ class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
   Duration duration = const Duration();
   Timer? timer;
   bool countDown = true;
+  final player = AudioPlayer();
 
   @override
   void initState() {
@@ -40,6 +42,13 @@ class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void playSong() {
+    if (duration.inMinutes == 2 && duration.inSeconds == 0) {
+      player.play(UrlSource(
+          '../../assets/pause_song.mp3')); // Replace with the actual path to your audio file
+    }
   }
 
   void reset() {
@@ -62,6 +71,7 @@ class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
         timer?.cancel();
       } else {
         duration = Duration(seconds: seconds);
+        playSong();
       }
     });
   }
