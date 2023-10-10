@@ -1,4 +1,3 @@
-import 'package:bingo/view/pauseScreen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -8,13 +7,13 @@ class CarouselWidget extends StatefulWidget {
   final SharedPreferences prefs;
   const CarouselWidget({super.key, required this.prefs});
   @override
-  _CarouselWidget createState() => _CarouselWidget();
+  CarouselWidgetState createState() => CarouselWidgetState();
 }
 
-class _CarouselWidget extends State<CarouselWidget> {
+class CarouselWidgetState extends State<CarouselWidget> {
   // int _current = 0;
   List<String> imgList = [];
-  late var child;
+  late List<Widget>? child;
 
   createList() {
     imgList = widget.prefs.getStringList('imgList') as List<String>;
@@ -57,21 +56,22 @@ class _CarouselWidget extends State<CarouselWidget> {
     return result;
   }
 
-//TODO: image screen height ratio
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      CarouselSlider(
-          items: child,
-          options: CarouselOptions(
-            autoPlay: true,
-            viewportFraction: 0.33,
-            height: 250,
-            autoPlayAnimationDuration: const Duration(milliseconds: 1000),
-            autoPlayInterval: const Duration(seconds: 5),
-            pauseAutoPlayOnManualNavigate: false,
-            pauseAutoPlayOnTouch: false,
-          ))
-    ]);
+    return child != null
+        ? Column(children: <Widget>[
+            CarouselSlider(
+                items: child,
+                options: CarouselOptions(
+                  autoPlay: true,
+                  viewportFraction: 0.33,
+                  height: 250,
+                  autoPlayAnimationDuration: const Duration(milliseconds: 1000),
+                  autoPlayInterval: const Duration(seconds: 5),
+                  pauseAutoPlayOnManualNavigate: false,
+                  pauseAutoPlayOnTouch: false,
+                ))
+          ])
+        : Container();
   }
 }

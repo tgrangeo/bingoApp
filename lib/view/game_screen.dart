@@ -1,9 +1,6 @@
-import 'dart:math';
-
-import 'package:bingo/view/pauseScreen.dart';
+import 'package:bingo/view/pause_screen.dart';
 import 'package:bingo/widget/game_carrousel.dart';
 import 'package:flutter/material.dart';
-import 'pauseScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:confetti/confetti.dart';
 import '../style/style.dart' as s;
@@ -11,7 +8,7 @@ import 'dart:math' as math;
 
 class GameScreen extends StatefulWidget {
   final SharedPreferences prefs;
-  GameScreen({super.key, required this.prefs});
+  const GameScreen({super.key, required this.prefs});
 
   @override
   State<GameScreen> createState() => _GameScreen();
@@ -19,7 +16,6 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreen extends State<GameScreen> {
   List<int> selectedIndex = [];
-  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   List<int> bingo = [];
   bool verif = false;
   bool isHover = false;
@@ -29,20 +25,19 @@ class _GameScreen extends State<GameScreen> {
   late Color textunselected;
   late Color textselected;
   late String mode;
-  late bool checkboxValue;
   late Color hovercolor;
-  final drop_items = ["jeu", "1 ligne", "2 lignes", "bingo"];
-  String drop_value = "jeu";
+  static const dropItems = ["jeu", "1 ligne", "2 lignes", "bingo"];
+  String dropValue = "jeu";
 
   @override
   initState() {
+    super.initState();
     mode = widget.prefs.getString('mode') ?? "libre";
-    checkboxValue = false;
     hovercolor = Colors.transparent;
     unselected =
         Color(widget.prefs.getInt('colorUnselect') ?? Colors.black.value);
     selected = Color(widget.prefs.getInt('colorSelect') ??
-        Color.fromARGB(255, 252, 178, 51).value);
+        const Color.fromARGB(255, 252, 178, 51).value);
     textunselected =
         Color(widget.prefs.getInt('textColorUnselect') ?? Colors.white.value);
     textselected =
@@ -66,12 +61,12 @@ class _GameScreen extends State<GameScreen> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        backgroundColor: Color.fromARGB(200, 0, 0, 0),
+        backgroundColor: const Color.fromARGB(200, 0, 0, 0),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
             side: BorderSide(
                 color: Color.fromARGB(255, 252, 178, 51), width: 2.0)),
-        content: Container(
+        content: SizedBox(
           height: 200,
           child: Stack(alignment: AlignmentDirectional.center, children: [
             Row(
@@ -121,13 +116,13 @@ class _GameScreen extends State<GameScreen> {
         bingo.remove(index);
       } else if (selectedIndex.contains(index)) {
         bingo.add(index);
-        if (bingo.length == 5 && drop_value == "1 ligne") {
+        if (bingo.length == 5 && dropValue == "1 ligne") {
           showBingo("1 Ligne");
           confettiController.play();
-        } else if (bingo.length == 10 && drop_value == "2 lignes") {
+        } else if (bingo.length == 10 && dropValue == "2 lignes") {
           showBingo("2 Lignes");
           confettiController.play();
-        } else if (bingo.length == 15 && drop_value == "bingo") {
+        } else if (bingo.length == 15 && dropValue == "bingo") {
           showBingo("Bingo");
           confettiController.play();
         }
@@ -145,17 +140,17 @@ class _GameScreen extends State<GameScreen> {
   Color colorButton(index) {
     if (verif == true) {
       if (bingo.contains(index)) {
-        return Colors.red; // select
+        return Colors.red;
       } else if (selectedIndex.contains(index)) {
-        return selected; // verif
+        return selected;
       } else {
         return unselected;
       }
     } else {
       if (selectedIndex.contains(index)) {
-        return selected; // unselect
+        return selected;
       } else {
-        return unselected; //select
+        return unselected;
       }
     }
   }
@@ -261,28 +256,24 @@ class _GameScreen extends State<GameScreen> {
                                           Radius.circular(20))),
                                   child: DropdownButton<String>(
                                     underline: Container(
-                                      // Supprimer la ligne de soulignement
                                       height: 0,
                                     ),
                                     icon: const Icon(
-                                      // Changer la couleur de la petite flèche en noir
                                       Icons.arrow_drop_down,
                                       color: Colors.black,
                                     ),
                                     items:
-                                        drop_items.map(buildMenuItem).toList(),
-                                    value: drop_value,
+                                        dropItems.map(buildMenuItem).toList(),
+                                    value: dropValue,
                                     onChanged: (value) => setState(() {
                                       if (value != null) {
-                                        drop_value = value;
+                                        dropValue = value;
                                         if (value == "jeu") {
                                           verif = false;
                                           bingo.clear();
                                         } else {
                                           verif = true;
                                         }
-                                        print(drop_value);
-                                        print(verif);
                                       }
                                     }),
                                   ))

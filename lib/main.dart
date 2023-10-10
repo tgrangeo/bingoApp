@@ -1,4 +1,4 @@
-import 'package:bingo/view/homeScreen.dart';
+import 'package:bingo/view/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

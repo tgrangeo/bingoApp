@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'button_widget.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class ScaleSize {
@@ -18,10 +17,10 @@ class StopWatchTimerPage extends StatefulWidget {
   final SharedPreferences prefs;
   const StopWatchTimerPage({super.key, required this.prefs});
   @override
-  _StopWatchTimerPageState createState() => _StopWatchTimerPageState();
+  StopWatchTimerPageState createState() => StopWatchTimerPageState();
 }
 
-class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
+class StopWatchTimerPageState extends State<StopWatchTimerPage> {
   static late Duration countdownDuration;
   Duration duration = const Duration();
   Timer? timer;
@@ -41,13 +40,17 @@ class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
 
   @override
   void dispose() {
+    player.dispose();
     super.dispose();
   }
 
-  void playSong() {
-    if (duration.inMinutes == 2 && duration.inSeconds == 0) {
-      player.play(UrlSource(
-          '../../assets/pause_song.mp3')); // Replace with the actual path to your audio file
+  void playSong() async {
+    if (duration.inSeconds == 127) {
+      var isSong = widget.prefs.getBool('pauseSong');
+      if (isSong == true) {
+        await player.setSource(AssetSource('pause_song.mp3'));
+        await player.resume();
+      }
     }
   }
 
@@ -120,7 +123,7 @@ class _StopWatchTimerPageState extends State<StopWatchTimerPage> {
               ),
               elevation: 20,
               child: Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Text(
                   time,
                   style: TextStyle(

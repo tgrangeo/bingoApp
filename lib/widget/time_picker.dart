@@ -66,7 +66,7 @@ var timeList = [
 
 class TimePicker extends StatefulWidget {
   final SharedPreferences prefs;
-  TimePicker({super.key, required this.prefs});
+  const TimePicker({super.key, required this.prefs});
 
   @override
   State<TimePicker> createState() => _TimePicker();
@@ -76,12 +76,15 @@ class _TimePicker extends State<TimePicker> {
   late int hours;
   late int minutes;
   late int secondes;
+  late bool isSong;
 
   @override
   initState() {
+    super.initState();
     hours = widget.prefs.getInt('hours') ?? 0;
     minutes = widget.prefs.getInt('minutes') ?? 0;
     secondes = widget.prefs.getInt('secondes') ?? 0;
+    isSong = widget.prefs.getBool('pauseSong') ?? true;
   }
 
   @override
@@ -89,11 +92,22 @@ class _TimePicker extends State<TimePicker> {
     super.dispose();
   }
 
+  void setPauseSong(bool? value) {
+    setState(() {
+      isSong = value!;
+    });
+    if (value == true) {
+      widget.prefs.setBool("pauseSong", true);
+    } else {
+      widget.prefs.setBool("pauseSong", false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
         elevation: 20,
-        color: Color.fromARGB(160, 228, 231, 234),
+        color: const Color.fromARGB(160, 228, 231, 234),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
@@ -110,71 +124,88 @@ class _TimePicker extends State<TimePicker> {
               ),
             ),
             Expanded(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("hours : ",
-                    style: TextStyle(fontSize: 22, color: Colors.black)),
-                DropdownButton(
-                    value: hours,
-                    iconEnabledColor: Colors.black,
-                    style: const TextStyle(fontSize: 22, color: Colors.black),
-                    items: timeList.map((int items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Center(child: Text(items.toString())),
-                      );
-                    }).toList(),
-                    onChanged: (value) => setState(() {
-                          hours = value!;
-                          widget.prefs.setInt('hours', hours);
-                          widget.prefs.setInt('minutes', minutes);
-                          widget.prefs.setInt('secondes', secondes);
-                        })),
-                const SizedBox(
-                  width: 5,
-                ),
-                const Text("min : ",
-                    style: TextStyle(fontSize: 22, color: Colors.black)),
-                DropdownButton(
-                    iconEnabledColor: Colors.black,
-                    value: minutes,
-                    style: const TextStyle(fontSize: 22, color: Colors.black),
-                    items: timeList.map((int items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Center(child: Text(items.toString())),
-                      );
-                    }).toList(),
-                    onChanged: (value) => setState(() {
-                          minutes = value!;
-                          widget.prefs.setInt('hours', hours);
-                          widget.prefs.setInt('minutes', minutes);
-                          widget.prefs.setInt('secondes', secondes);
-                        })),
-                const SizedBox(
-                  width: 5,
-                ),
-                const Text("sec : ",
-                    style: TextStyle(fontSize: 22, color: Colors.black)),
-                DropdownButton(
-                    value: secondes,
-                    iconEnabledColor: Colors.black,
-                    style: const TextStyle(fontSize: 22, color: Colors.black),
-                    items: timeList.map((int items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Center(child: Text(items.toString())),
-                      );
-                    }).toList(),
-                    onChanged: (value) => setState(() {
-                          secondes = value!;
-                          widget.prefs.setInt('hours', hours);
-                          widget.prefs.setInt('minutes', minutes);
-                          widget.prefs.setInt('secondes', secondes);
-                        })),
-              ],
-            ))
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("hours : ",
+                          style: TextStyle(fontSize: 22, color: Colors.black)),
+                      DropdownButton(
+                          value: hours,
+                          iconEnabledColor: Colors.black,
+                          style: const TextStyle(
+                              fontSize: 22, color: Colors.black),
+                          items: timeList.map((int items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Center(child: Text(items.toString())),
+                            );
+                          }).toList(),
+                          onChanged: (value) => setState(() {
+                                hours = value!;
+                                widget.prefs.setInt('hours', hours);
+                                widget.prefs.setInt('minutes', minutes);
+                                widget.prefs.setInt('secondes', secondes);
+                              })),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      const Text("min : ",
+                          style: TextStyle(fontSize: 22, color: Colors.black)),
+                      DropdownButton(
+                          iconEnabledColor: Colors.black,
+                          value: minutes,
+                          style: const TextStyle(
+                              fontSize: 22, color: Colors.black),
+                          items: timeList.map((int items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Center(child: Text(items.toString())),
+                            );
+                          }).toList(),
+                          onChanged: (value) => setState(() {
+                                minutes = value!;
+                                widget.prefs.setInt('hours', hours);
+                                widget.prefs.setInt('minutes', minutes);
+                                widget.prefs.setInt('secondes', secondes);
+                              })),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      const Text("sec : ",
+                          style: TextStyle(fontSize: 22, color: Colors.black)),
+                      DropdownButton(
+                          value: secondes,
+                          iconEnabledColor: Colors.black,
+                          style: const TextStyle(
+                              fontSize: 22, color: Colors.black),
+                          items: timeList.map((int items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Center(child: Text(items.toString())),
+                            );
+                          }).toList(),
+                          onChanged: (value) => setState(() {
+                                secondes = value!;
+                                widget.prefs.setInt('hours', hours);
+                                widget.prefs.setInt('minutes', minutes);
+                                widget.prefs.setInt('secondes', secondes);
+                              })),
+                    ],
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Checkbox(
+                      value: isSong,
+                      onChanged: setPauseSong,
+                      activeColor: const Color.fromARGB(255, 252, 179, 51),
+                      checkColor: Colors.black,
+                    ),
+                    const Text("play song pause",
+                        style: TextStyle(color: Colors.black, fontSize: 18))
+                  ]),
+                ]))
           ],
         ));
   }

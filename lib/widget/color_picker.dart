@@ -1,7 +1,4 @@
-import 'dart:io';
-import 'package:bingo/widget/sponsor_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
@@ -9,10 +6,10 @@ class ColorPickerWidget extends StatefulWidget {
   final SharedPreferences prefs;
   const ColorPickerWidget({super.key, required this.prefs});
   @override
-  _ColorPickerWidget createState() => _ColorPickerWidget();
+  ColorPickerWidgetState createState() => ColorPickerWidgetState();
 }
 
-class _ColorPickerWidget extends State<ColorPickerWidget> {
+class ColorPickerWidgetState extends State<ColorPickerWidget> {
   Color pickerColor = const Color(0xff443a49);
   late Color colorSelect;
   late Color colorUnselect;
@@ -22,6 +19,7 @@ class _ColorPickerWidget extends State<ColorPickerWidget> {
 
   @override
   initState() {
+    super.initState();
     colorUnselect =
         Color(widget.prefs.getInt('colorUnselect') ?? Colors.black.value);
     colorSelect = Color(widget.prefs.getInt('colorSelect') ?? orange.value);
@@ -88,11 +86,8 @@ class _ColorPickerWidget extends State<ColorPickerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Card(
-        color: Color.fromARGB(160, 228, 231, 234),
+        color: const Color.fromARGB(160, 228, 231, 234),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
@@ -289,7 +284,21 @@ class _ColorPickerWidget extends State<ColorPickerWidget> {
                       style: TextStyle(fontSize: 48, color: textSelected))),
             ],
           ),
-          ElevatedButton(onPressed: reset, child: Text("reset")),
+          ElevatedButton(
+            onPressed: reset,
+
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              backgroundColor: orange,
+            ),
+            // ButtonStyle(backgroundColor: MaterialStateProperty.all(orange)),
+            child: const Text(
+              "reset",
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
         ]));
   }
 }

@@ -1,4 +1,3 @@
-import 'package:bingo/view/gameScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +14,7 @@ class _ModePicker extends State<ModePicker> {
 
   @override
   void initState() {
+    super.initState();
     var mode = widget.prefs.getString("mode");
     if (mode == "normal") {
       select = 1;
@@ -30,11 +30,8 @@ class _ModePicker extends State<ModePicker> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Card(
-      color: Color.fromARGB(151, 228, 231, 234),
+      color: const Color.fromARGB(151, 228, 231, 234),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
@@ -56,12 +53,15 @@ class _ModePicker extends State<ModePicker> {
                   select == 1 ? Colors.black : Colors.transparent),
               padding: MaterialStateProperty.all<EdgeInsets>(
                   const EdgeInsets.all(20)),
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
-                  //TODO: border bigger and black 
-                  // side: const BorderSide(width: 5.0, color: Colors.green),
-              // side: BorderSide(width: 5.0, color: Colors.green,style: BorderStyle.solid)
-            )),
+                  side: const BorderSide(
+                    width: 2.0,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
             ),
             onPressed: () {
               setState(() {

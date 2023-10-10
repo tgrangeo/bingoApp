@@ -1,4 +1,4 @@
-import 'package:bingo/view/gameScreen.dart';
+import 'package:bingo/view/game_screen.dart';
 import 'package:bingo/widget/color_picker.dart';
 import 'package:bingo/widget/mode_picker.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Center(
       child: Container(
@@ -47,14 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image(
-                    image: AssetImage('assets/logo_caserne.png'),
+                    image: const AssetImage('assets/logo_caserne.png'),
                     width: screenHeight * 0.15),
                 Text(
                   "LOTO POMPIER",
                   style: TextStyle(fontSize: screenHeight * 0.10),
                 ),
                 Image(
-                    image: AssetImage('assets/logo_caserne.png'),
+                    image: const AssetImage('assets/logo_caserne.png'),
                     width: screenHeight * 0.15),
               ],
             ),

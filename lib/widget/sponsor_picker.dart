@@ -6,16 +6,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SponsorPicker extends StatefulWidget {
   final SharedPreferences prefs;
-  SponsorPicker({super.key, required this.prefs});
+  const SponsorPicker({super.key, required this.prefs});
   @override
-  _SponsorPicker createState() => _SponsorPicker();
+  SponsorPickerState createState() => SponsorPickerState();
 }
 
-class _SponsorPicker extends State<SponsorPicker> {
+class SponsorPickerState extends State<SponsorPicker> {
   late List<String> pathList;
 
   @override
   void initState() {
+    super.initState();
     // List<String>? imgList = widget.prefs.getStringList('imgList');
     // if (imgList != null) {
     //   pathList = imgList;
@@ -30,28 +31,28 @@ class _SponsorPicker extends State<SponsorPicker> {
     super.dispose();
   }
 
-  pickFile() async {
+  void pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
       allowedExtensions: ['jpg', 'png', 'jpeg', 'svg'],
     );
-    if (result != null) {
+    if (result != null && result.paths.isNotEmpty) {
       List<File> files = result.paths.map((path) => File(path!)).toList();
       for (int i = 0; i < files.length; i++) {
-        print(files[i].path);
-        if (files[i].path.split('.').last == 'png' ||
-            pathList[i].split('.').last == 'jpg' ||
-            pathList[i].split('.').last == 'jpeg' ||
-            pathList[i].split('.').last == 'svg') {
-          // check cause allowed extension don't seems to work
+        if (['png', 'jpg', 'jpeg', 'svg']
+            .contains(files[i].path.split('.').last.toLowerCase())) {
           pathList.add(files[i].path);
         }
       }
       widget.prefs.setStringList('imgList', pathList);
       setState(() {});
-    } else {
-      print("cancel");
+      // ignore: use_build_context_synchronously
+      // Navigator.of(context).pop();
     }
+    // else {
+    //   // Handle the cancel action properly
+    //   print("Canceled file selection");
+    // }
   }
 
   deletePath(int i) {

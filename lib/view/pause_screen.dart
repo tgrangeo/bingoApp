@@ -1,14 +1,11 @@
-//import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:bingo/widget/pause_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widget/stopwatch.dart';
-import '../style/style.dart' as s;
-import 'package:lottie/lottie.dart';
 
 class PauseScreen extends StatefulWidget {
   final SharedPreferences prefs;
-  PauseScreen({super.key, required this.prefs});
+  const PauseScreen({super.key, required this.prefs});
 
   @override
   State<PauseScreen> createState() => _PauseScreen();
@@ -16,14 +13,11 @@ class PauseScreen extends StatefulWidget {
 
 class _PauseScreen extends State<PauseScreen> with TickerProviderStateMixin {
   int sponsorLen = 0;
-  late final AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
     sponsorLen = widget.prefs.getStringList('imgList')!.length;
-    _controller = AnimationController(vsync: this);
-    // _controller.forward();
   }
 
   @override
