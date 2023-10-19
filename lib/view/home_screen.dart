@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SizedBox(
-                    height: 600,
+                    height: screenHeight * 0.55,
                     child: Row(
                       children: [
                         Expanded(child: SponsorPicker(prefs: widget.prefs)),

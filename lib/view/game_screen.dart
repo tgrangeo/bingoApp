@@ -117,13 +117,13 @@ class _GameScreen extends State<GameScreen> {
       } else if (selectedIndex.contains(index)) {
         bingo.add(index);
         if (bingo.length == 5 && dropValue == "1 ligne") {
-          showBingo("1 Ligne");
+          showBingo("Gagné");
           confettiController.play();
         } else if (bingo.length == 10 && dropValue == "2 lignes") {
-          showBingo("2 Lignes");
+          showBingo("Gagné");
           confettiController.play();
         } else if (bingo.length == 15 && dropValue == "bingo") {
-          showBingo("Bingo");
+          showBingo("Gagné");
           confettiController.play();
         }
       }
