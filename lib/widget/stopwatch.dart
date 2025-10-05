@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 
 class ScaleSize {
   static double textScaleFactor(BuildContext context,
@@ -25,7 +25,7 @@ class StopWatchTimerPageState extends State<StopWatchTimerPage> {
   Duration duration = const Duration();
   Timer? timer;
   bool countDown = true;
-  final player = AudioPlayer();
+  // final player = AudioPlayer();
 
   @override
   void initState() {
@@ -40,17 +40,17 @@ class StopWatchTimerPageState extends State<StopWatchTimerPage> {
 
   @override
   void dispose() {
-    player.dispose();
+    // player.dispose();
     super.dispose();
   }
 
   void playSong() async {
     if (duration.inSeconds == 127) {
-      var isSong = widget.prefs.getBool('pauseSong');
-      if (isSong == true) {
-        await player.setSource(AssetSource('pause_song.mp3'));
-        await player.resume();
-      }
+      // var isSong = widget.prefs.getBool('pauseSong');
+      // if (isSong == true) {
+      //   await player.setSource(AssetSource('pause_song.mp3'));
+      //   await player.resume();
+      // }
     }
   }
 

@@ -6,3 +6,4 @@ abstract class Style {
   static Color white = const Color(0xffF5F5F5);
   static Color black = const Color(0xff080708);
 }
+
